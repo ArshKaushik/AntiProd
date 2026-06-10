@@ -52,6 +52,17 @@ export type ChatMessage = {
   content: string;
 };
 
+/**
+ * Configurable model layer. AntiProd never hardcodes a provider or key — the
+ * customer points it at their own private endpoint. Stored locally only; no
+ * data leaves the deployment.
+ */
+export type ModelSettings = {
+  provider: "azure" | "bedrock" | "anthropic" | "self-hosted";
+  endpoint: string;
+  model: string;
+};
+
 /** Request body for the /api/design endpoint. */
 export type DesignRequest = {
   screenName: string;
@@ -65,4 +76,6 @@ export type DesignResponse = {
   reply: string;
   /** The full updated element list, or null if the agent only chatted. */
   elements: ScreenElement[] | null;
+  /** Suggested screen name, when the prompt implies one. */
+  screenName?: string;
 };

@@ -1,99 +1,119 @@
 # AntiProd
 
-**A visual app builder.** Design and develop applications using a workflow
-method: each screen of your app is a **node** on an infinite, Figma-style
-canvas. Connect screens with edges to define the flow and functionality between
-them.
+**The design-engineer canvas — self-hosted, on your own model, inside your firewall.**
 
-## Features
+AntiProd is a nonlinear, bird's-eye canvas for design engineers. Generate a
+screen as a node, fork it into as many variants as you want, lay them side by
+side, iterate freely, and converge on one — then generate **front-end code on
+demand**, only for the screen you've chosen.
 
-- 🖼️ **Infinite canvas** — pan and zoom freely, just like Figma.
-- 🧩 **Screen nodes** — every node represents one screen of your app.
-- 🔗 **Connectors** — drag between handles to wire screens together and model
-  navigation / functionality.
-- 🤖 **AI design agent** — click a screen to open a chat panel; describe what you
-  want and the agent edits that screen's design in real time.
-- 🗺️ **Minimap & controls** — quick navigation around large workflows.
+Its defining property: **zero data egress.** AntiProd is built to run entirely
+inside the customer's own infrastructure, against their own or chosen model.
+Nothing leaves the network.
 
-Built with [Next.js 16](https://nextjs.org), [React Flow
-(`@xyflow/react`)](https://reactflow.dev), the [Claude
-API](https://docs.claude.com), TypeScript, and Tailwind CSS v4.
+> _Stitch for design engineers — except it runs inside your firewall, on your
+> own model, and your code never leaves the building._
+
+## The core loop
+
+1. **Generate** a screen from a prompt — it appears as a node on the canvas.
+2. **Fork** it into variants; tweak each by prompt. Variants persist side by
+   side — nothing is overwritten.
+3. **Zoom out** for the bird's-eye view; arrange, compare, and connect screens
+   with navigation edges.
+4. **Converge** on the screen you want.
+5. **Generate code** for that one node, on request — front-end code only.
+
+## Features (v1)
+
+- 🖼️ **Infinite, zoomable canvas** of screen-nodes — create, fork, arrange,
+  connect, compare side by side.
+- 🤖 **Prompt-driven design** — describe a screen (or an edit) and the design
+  agent rewrites the node's elements live.
+- 🌿 **Nonlinear iteration** — fork any node into a persistent variant; the
+  original is never overwritten.
+- 💻 **Code-on-demand** — compile a single chosen node into a React + Tailwind
+  component, with copy / download.
+- 🔌 **Configurable model layer** — point AntiProd at your own endpoint
+  (Azure / Bedrock / Anthropic / self-hosted). Never a hardcoded provider or key.
+- 🔒 **Zero egress** — no outbound calls, no telemetry, no data retention beyond
+  your deployment.
+
+## Current development status
+
+The design agent currently runs on a **local mock generator** (`src/lib/generator.ts`)
+— template + heuristic based, fully offline — so the entire front end is
+workable **without any API key or network access**. The `/api/design` route is
+the seam where a configurable model endpoint will later be proxied; the rest of
+the app only depends on its request/response shape. Code generation
+(`src/lib/codegen.ts`) is a real, deterministic local transform.
 
 ## Getting Started
 
-Install dependencies:
-
 ```bash
 npm install
-```
-
-Configure the AI design agent — copy the example env file and add your
-[Anthropic API key](https://console.anthropic.com/):
-
-```bash
-cp .env.local.example .env.local
-# then edit .env.local and set ANTHROPIC_API_KEY
-```
-
-Run the dev server:
-
-```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser. (The canvas
-works without a key; the per-screen AI chat needs `ANTHROPIC_API_KEY`.)
+Open [http://localhost:3000](http://localhost:3000). No API key needed — the
+mock generator runs locally.
 
-### How to use the canvas
+### Using the canvas
 
-- **Add a screen** — click **Add screen** in the top-left toolbar.
-- **Design a screen with AI** — click a screen to open the chat panel, then
-  describe what you want (e.g. _"make this a login screen with email and
-  password fields and a sign-in button"_). The preview updates in real time.
-- **Move screens** — drag a node anywhere on the canvas.
-- **Connect screens** — drag from a node's blue handle to another node's handle.
-- **Pan** — drag empty canvas space (or use the scroll wheel / trackpad).
-- **Zoom** — scroll / pinch, or use the controls in the bottom-left.
+- **Generate a screen** — type a prompt in the top bar (e.g. _"a login screen
+  with SSO"_) and hit **Generate**, or **+** for a blank screen.
+- **Edit a screen** — click a node to open the chat panel; describe changes
+  (_"add an email and password field"_, _"add a primary 'Sign in' button"_).
+- **Fork a variant** — use the node toolbar or the panel's **Fork** button.
+- **Generate code** — node toolbar **Code** action → React + Tailwind, copy or
+  download as `.tsx`.
+- **Connect screens** — drag between the blue handles to add navigation edges.
+- **Configure the model** — the endpoint chip (top-right) opens model settings.
+
+## Stack
+
+- [Next.js 16](https://nextjs.org) (App Router, Turbopack)
+- [React Flow (`@xyflow/react`)](https://reactflow.dev) — the node canvas
+- [shadcn/ui](https://ui.shadcn.com) (Base UI primitives) + Tailwind CSS v4
+- TypeScript
+
+Self-hostable and endpoint-configurable by design — the two hard requirements
+from the brief.
 
 ## Project structure
 
 ```
 src/
 ├── app/
-│   ├── api/design/route.ts # AI design agent (Claude API) — edits a screen
-│   ├── layout.tsx          # Root layout + metadata
-│   ├── page.tsx            # Renders the canvas
-│   └── globals.css         # Tailwind v4 + theme tokens
+│   ├── api/design/route.ts     # Design-generation seam (local mock today)
+│   ├── layout.tsx              # Root layout, providers (tooltip, toaster)
+│   ├── page.tsx                # Renders the canvas
+│   └── globals.css             # Tailwind v4 + shadcn theme tokens
 ├── components/
-│   └── canvas/
-│       ├── Canvas.tsx      # React Flow canvas + state (nodes/edges/chat)
-│       ├── ScreenNode.tsx  # "Screen" node: renders the live design preview
-│       ├── ChatPanel.tsx   # Right-side AI chat for the selected screen
-│       └── Toolbar.tsx     # Floating toolbar (add screen, branding)
+│   ├── canvas/
+│   │   ├── Canvas.tsx           # Orchestrates nodes, edges, chat, dialogs
+│   │   ├── TopBar.tsx           # Brand, generate-a-screen prompt, model chip
+│   │   ├── ScreenNode.tsx       # Screen node + live preview + node toolbar
+│   │   ├── ChatPanel.tsx        # Per-screen AI chat (edit / fork / code)
+│   │   ├── CodeDialog.tsx       # Generated React+Tailwind, copy / download
+│   │   ├── ModelSettings.tsx    # Configurable endpoint sheet (localStorage)
+│   │   └── canvas-context.tsx   # Node → canvas action wiring
+│   └── ui/                      # shadcn components
 └── lib/
-    └── types.ts            # Shared node/edge/design/chat types
+    ├── generator.ts            # Local design generator (templates + edits)
+    ├── codegen.ts              # Design → React + Tailwind compiler
+    └── types.ts                # Shared types
 ```
 
-## How the AI design agent works
+## Not in v1 (deliberately)
 
-Each screen holds a list of UI elements (`headings`, `text`, `buttons`,
-`inputs`, …). When you send a chat command, `POST /api/design` calls Claude
-(`claude-opus-4-8`) with a tool, `update_screen_design`, that returns the full
-updated element list. The canvas applies it to the node's `data.elements`, which
-re-renders the preview instantly. Conversation history is kept per screen.
+Full-stack / backend generation, deep multiplayer, analytics / testing / PM
+layers, and enterprise hardening (SSO, SOC 2, FedRAMP) beyond what a single
+design-partner deployment needs. v1 exists to answer two questions: do design
+engineers open it a second time, and does security let it stay.
 
-## Scripts
+## Next milestone
 
-| Command         | Description                       |
-| --------------- | --------------------------------- |
-| `npm run dev`   | Start the dev server (Turbopack)  |
-| `npm run build` | Production build                  |
-| `npm run start` | Run the production build          |
-| `npm run lint`  | Lint with ESLint                  |
-
-## Roadmap ideas
-
-- Inline editing of screen name / contents (double-click).
-- Persisting workflows (localStorage → backend).
-- Screen templates and a component palette.
-- Exporting the workflow as a spec or scaffolded code.
+Wire the `/api/design` seam to live inference against the configured endpoint —
+keeping the zero-egress guarantee — so prompts hit the customer's own model
+instead of the local mock.
