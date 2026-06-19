@@ -40,13 +40,13 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# claude code local settings
-.claude/settings.local.json
+# claude code: share project settings/hooks; ignore local settings + installed skills
+/.claude/*
+!/.claude/settings.json
 
-# local agent / tooling scaffolding (not part of the app)
+# local agent / tooling scaffolding (python env, installed skill artifacts)
 /.venv/
 /.agents/
-/.claude/
 /skills-lock.json
 
 # graphify: the graph + report are committed for the team, but local cache,
