@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 type Branch = {
   id: string;
@@ -51,12 +52,28 @@ function computeBarWidth(count: number): number {
   return Math.max(BASE_BAR_WIDTH, Math.max(rightmostAbove, rightmostBelow) + 80);
 }
 
-// Canvas is always at least viewport-wide; grows when bar needs more room.
-function computeLayout(count: number) {
+// Canvas is always at least viewport-wide; grows so the bar AND every pill fit
+// with padding. Pills sit to the right of the bar end (connected back by an
+// S-curve), so the canvas is sized from the rightmost pill edge — not just the
+// bar — otherwise the last pill overflows the canvas and gets clipped.
+function computeLayout(branches: Branch[]) {
+  const count = branches.length;
   const viewportWidth = window.innerWidth;
   const barWidth   = computeBarWidth(count);
-  const canvasWidth = Math.max(viewportWidth, barWidth + 2 * CANVAS_PADDING);
-  const barLeft    = (canvasWidth - barWidth) / 2;
+  // Rightmost content edge relative to barLeft: bar end vs. each pill's right
+  // edge at its default (index-based) position, using measured width when known.
+  let contentRight = barWidth;
+  for (const b of branches) {
+    contentRight = Math.max(contentRight, defaultPillPos(b.index).x + b.size.w);
+  }
+  const canvasWidth = Math.max(viewportWidth, contentRight + 2 * CANVAS_PADDING);
+  // Center the bar when it's the only content; once pills push past the bar,
+  // pin CANVAS_PADDING to the bar's left and let the canvas grow rightward so
+  // the rightmost pill keeps a full CANVAS_PADDING margin on its right.
+  const barLeft = Math.max(
+    CANVAS_PADDING,
+    Math.min((canvasWidth - barWidth) / 2, canvasWidth - contentRight - CANVAS_PADDING),
+  );
   const barTop     = window.innerHeight / 2 - BAR_HEIGHT / 2;
   return { barWidth, canvasWidth, barLeft, barTop, viewportWidth };
 }
@@ -96,24 +113,35 @@ export default function RepoCanvas() {
   const scrollRef  = useRef<HTMLDivElement>(null);
   const [scrollX, setScrollX] = useState(0);
   const [branches, setBranches] = useState<Branch[]>([]);
+  // id of the just-created branch — drives the auto-scroll target and its
+  // temporary glow; cleared after the highlight fades.
+  const [highlightId, setHighlightId] = useState<string | null>(null);
   const pillRefs   = useRef<Record<string, HTMLDivElement | null>>({});
   const measuredIds = useRef<Set<string>>(new Set());
-  const draggingId  = useRef<string | null>(null);
-  // dragOffset stores (clientX + scrollLeft − pos.x) and (clientY − pos.y)
-  // — barLeft/barTop are NOT baked in, so rendering with current barLeft/barTop
-  //   automatically keeps pills in their bar-relative positions.
-  const dragOffset  = useRef({ x: 0, y: 0 });
+  // Clicking a pill opens that branch's build screen.
+  const router      = useRouter();
 
-  // Seed first branch.
+  // Mount flag: defer window-based layout to the client so SSR uses the
+  // fallback, and the (initially empty) repo bar still centers once mounted.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
+
+  // On branch creation: smooth-scroll so the new pill is centered in the
+  // viewport, then fade out its glow. Keyed on highlightId only — runs after
+  // the new branch has rendered with the recomputed (post-shift) layout.
   useEffect(() => {
-    setBranches([{
-      id:    "initial",
-      name:  "claude/corgi-branch",
-      index: 0,
-      pos:   defaultPillPos(0),
-      size:  { w: DEFAULT_PILL_W, h: DEFAULT_PILL_H },
-    }]);
-  }, []);
+    if (!highlightId) return;
+    const el = scrollRef.current;
+    const b  = branches.find(x => x.id === highlightId);
+    if (!el || !b) return;
+    const pillCenter = layout.barLeft + b.pos.x + b.size.w / 2;
+    const target     = pillCenter - layout.viewportWidth / 2;
+    const maxScroll  = layout.canvasWidth - layout.viewportWidth;
+    el.scrollTo({ left: Math.max(0, Math.min(target, maxScroll)), behavior: "smooth" });
+    const t = setTimeout(() => setHighlightId(null), 1800);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentionally fires only on a new highlight, not on every branches/layout change
+  }, [highlightId]);
 
   // Re-compute layout on resize.
   useEffect(() => {
@@ -149,54 +177,26 @@ export default function RepoCanvas() {
     }
   }, [branches]);
 
-  // Global drag listeners.
-  useEffect(() => {
-    const onMove = (e: MouseEvent) => {
-      if (!draggingId.current) return;
-      const id = draggingId.current;
-      const scrollLeft = scrollRef.current?.scrollLeft ?? 0;
-      // newRelX/Y are bar-relative — barLeft is added at render time.
-      const newRelX = e.clientX + scrollLeft - dragOffset.current.x;
-      const newRelY = e.clientY             - dragOffset.current.y;
-      setBranches(prev =>
-        prev.map(b => b.id === id ? { ...b, pos: { x: newRelX, y: newRelY } } : b)
-      );
-    };
-    const onUp = () => { draggingId.current = null; };
-    window.addEventListener("mousemove", onMove);
-    window.addEventListener("mouseup",  onUp);
-    return () => {
-      window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("mouseup",  onUp);
-    };
-  }, []);
-
-  const handleMouseDown = (e: React.MouseEvent, b: Branch) => {
-    e.preventDefault();
-    const scrollLeft = scrollRef.current?.scrollLeft ?? 0;
-    draggingId.current = b.id;
-    dragOffset.current = {
-      x: e.clientX + scrollLeft - b.pos.x,
-      y: e.clientY             - b.pos.y,
-    };
-  };
-
   const createBranch = () => {
+    const id = crypto.randomUUID();
     setBranches(prev => [
       ...prev,
       {
-        id:    crypto.randomUUID(),
+        id,
         name:  randomBranchName(),
         index: prev.length,
         pos:   defaultPillPos(prev.length),
         size:  { w: DEFAULT_PILL_W, h: DEFAULT_PILL_H },
       },
     ]);
+    // Triggers the scroll-to + glow effect once the new pill has rendered.
+    setHighlightId(id);
   };
 
-  // Layout derived each render — branches are empty on SSR, so window access is safe.
-  const layout = branches.length > 0
-    ? computeLayout(branches.length)
+  // Layout derived each render — only touch window on the client (post-mount),
+  // so SSR/first render use the fallback and avoid hydration mismatch.
+  const layout = mounted
+    ? computeLayout(branches)
     : { barWidth: BASE_BAR_WIDTH, canvasWidth: BASE_BAR_WIDTH + 2 * CANVAS_PADDING, barLeft: CANVAS_PADDING, barTop: 0, viewportWidth: BASE_BAR_WIDTH };
 
   return (
@@ -207,11 +207,12 @@ export default function RepoCanvas() {
         className="relative h-full bg-black"
         style={{ width: `${layout.canvasWidth}px` }}
       >
-        {/* Navbar — fixed so it stays in view while scrolling. */}
-        <div className="fixed top-0 right-0 p-5 z-20">
+        {/* Top navigation bar — full width, fixed 76px height, fixed so it
+            stays in view while the canvas scrolls. */}
+        <div className="fixed top-0 left-0 right-0 h-[76px] flex items-center justify-end px-5 bg-black z-20">
           <button
             onClick={createBranch}
-            className="bg-[#171717] border border-[#262626] text-white text-[14px] font-normal leading-5 px-[14px] py-[8px] rounded-[8px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] cursor-pointer"
+            className="bg-neutral-900 border border-neutral-800 text-white text-sm font-regular px-[14px] py-[8px] rounded-[8px] shadow-xs cursor-pointer"
           >
             Create Branch
           </button>
@@ -233,7 +234,7 @@ export default function RepoCanvas() {
               <path
                 key={b.id}
                 d={buildPath(sx, sy, ex, ey)}
-                stroke="#404040"
+                stroke="var(--color-neutral-700)"
                 strokeWidth="1"
                 fill="none"
               />
@@ -246,21 +247,25 @@ export default function RepoCanvas() {
           <div
             key={b.id}
             ref={el => { pillRefs.current[b.id] = el; }}
-            onMouseDown={e => handleMouseDown(e, b)}
-            className="absolute bg-[#171717] border border-[#262626] flex items-center justify-center px-4 py-2 rounded-full cursor-grab active:cursor-grabbing select-none z-10"
+            onClick={() => router.push(`/branch/${b.name}`)}
+            className={`absolute bg-neutral-900 flex items-center justify-center px-4 py-2 rounded-full cursor-pointer select-none z-10 transition-all duration-700 ${
+              b.id === highlightId
+                ? "border border-white/50 shadow-[0_0_18px_3px_rgba(255,255,255,0.22)]"
+                : "border border-neutral-800 shadow-none"
+            }`}
             style={{
               left: `${layout.barLeft + b.pos.x}px`,
               top:  `${layout.barTop  + b.pos.y}px`,
             }}
           >
-            <span className="text-white text-[14px] font-normal leading-5 whitespace-nowrap">
+            <span className="text-white text-sm font-regular whitespace-nowrap">
               {b.name}
             </span>
           </div>
         ))}
 
-        {/* Repo bar — width grows, always centered in canvas. */}
-        {branches.length > 0 && (
+        {/* Repo bar — always shown; width grows, always centered in canvas. */}
+        {
           // Outer div: absolute placement within the canvas.
           <div
             className="absolute"
@@ -272,13 +277,13 @@ export default function RepoCanvas() {
             }}
           >
             {/* Inner div: relative containing block for the name span + visual styling. */}
-            <div className="relative w-full h-full bg-[#171717] border border-[#262626] rounded-[8px] overflow-hidden">
+            <div className="relative w-full h-full bg-neutral-900 border border-neutral-800 rounded-[8px] overflow-hidden">
               {/* Name is clamped to the visible portion of the bar:
                   - natural position: center of bar
                   - right-clamp: sticks near the right viewport edge when bar grows wider
                   - left-clamp:  sticks near the left viewport edge when user scrolls right */}
               <span
-                className="absolute top-1/2 text-white text-[14px] font-normal leading-5 whitespace-nowrap pointer-events-none"
+                className="absolute top-1/2 text-white text-sm font-regular whitespace-nowrap pointer-events-none"
                 style={{
                   left: (() => {
                     const PAD = 72;
@@ -293,7 +298,7 @@ export default function RepoCanvas() {
               </span>
             </div>
           </div>
-        )}
+        }
       </div>
     </div>
   );

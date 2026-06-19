@@ -1,0 +1,17 @@
+/* =============================================================================
+ * Design system — single entry point
+ * -----------------------------------------------------------------------------
+ * Import this once (after `@import "tailwindcss"`) from the app's global CSS.
+ * Each design-token layer is added here as its own `@import` so the system can
+ * grow without touching application code.
+ *
+ * Layers (add new ones below as they're established):
+ *   - tokens/colors.css      color palette          ✓
+ *   - tokens/typography.css  type scale / fonts     ✓
+ *   - tokens/effects.css     shadows & blurs        ✓
+ *   - tokens/spacing.css     spacing & radii         (planned)
+ * ========================================================================== */
+
+@import "./tokens/colors.css";
+@import "./tokens/typography.css";
+@import "./tokens/effects.css";

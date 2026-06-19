@@ -1,34 +1,58 @@
 # AntiProd — `latest-test` branch
 
-Visual desktop tool for exploring GitHub repositories. This branch contains the foundational UI canvas built from a Figma spec.
+Visual desktop tool for exploring repositories and building apps on a canvas.
+This branch contains the foundational UI — a repository canvas, a per-branch
+build canvas, and the **Scale DS** design system — built from a Figma spec.
 
 ## What's been built
 
-### Repo bar
-A horizontally centered bar represents a GitHub repository. As branches are added the bar grows wider, and the canvas becomes horizontally scrollable. The repo name is always visible — it clamps to the right edge of the viewport when the bar grows past the screen width, and to the left edge when the user scrolls right.
+### Repo canvas (`/`)
 
-### Branch pills
-Each branch is rendered as a draggable pill element. Pills alternate above and below the repo bar:
-- Even-indexed branches appear **above** the bar
-- Odd-indexed branches appear **below** the bar
+- **Repo bar** — a horizontally centered bar representing a repository. As
+  branches are added the bar grows wider and the canvas becomes horizontally
+  scrollable. The repo name stays visible, clamping to the viewport edge as the
+  bar grows or the canvas scrolls.
+- **Branch pills** — each branch is a pill alternating above/below the bar (even
+  indices above, odd below), with two vertical tiers per side so adjacent pills
+  never collide. **Clicking a pill opens that branch's build screen.**
+- **S-curve connectors** — each pill links to a fixed anchor on the bar via a
+  symmetric cubic-bezier SVG curve.
+- **Create Branch** — a navbar button spawns a pill with a random
+  `adjective/noun-branch` name, then smooth-scrolls to center the new pill and
+  briefly highlights it with a soft glow.
 
-Within each side, pills alternate between two vertical tiers (`sideIndex % 2`) so adjacent pills are always 376px apart horizontally — wide enough for any branch name, and unaffected by future renames.
+### Branch build screen (`/branch/[...name]`)
 
-Pills can be freely dragged to any position. Their coordinates are stored relative to the bar, so everything moves together when the canvas scrolls.
+Reached by clicking a branch pill. A Figma-like canvas where each branch's app
+is designed and built (multiple nodes + connector flows are planned).
 
-### S-curve connectors
-Each pill is connected to a fixed anchor point on the repo bar via an SVG S-curve (symmetric cubic bezier). The connector always attaches to the **left edge** of the pill and arrives at the bar anchor horizontally, creating a clean S-shape that updates live as pills are dragged.
+- **Navbar** — back-to-repository button, the branch name (read from the URL, so
+  it survives refresh / is shareable), and a panel-toggle button (placeholder).
+- **Canvas** — zoom (Cmd/Ctrl-scroll & trackpad pinch, anchored to the cursor),
+  pan (scroll or space-bar + drag), all clamped 0.1×–4×.
+- **Node** — a draggable 266×266 frame ("Alright, let's start build!"). Dragging
+  is zoom-aware so it tracks the cursor at any scale.
 
-### Create Branch button
-A fixed navbar button spawns new branch pills with random funky names (`adjective/noun-branch`). Branch anchors are evenly spaced along the bar (188px apart per side).
+### Scale DS — design system (`src/design-system/`)
+
+The single source of truth for the visual language, transcribed from Figma and
+defined with Tailwind v4's `@theme` so every token is both a CSS variable and a
+utility class. No hardcoded colors / type / shadows live in components.
+
+- `tokens/colors.css` — full palette (`bg-neutral-900`, `bg-brand-600`, …)
+- `tokens/typography.css` — type scale + font family/weights (`text-sm`, `text-display-lg`, `font-semibold`, …)
+- `tokens/effects.css` — drop shadows + background blurs (`shadow-xs`, `backdrop-blur-md`, …)
+
+See `src/design-system/README.md` for conventions and how to add token layers.
 
 ## Tech stack
 
 | | |
 |---|---|
-| Framework | Next.js 16 (App Router) |
+| Framework | Next.js 16 (App Router, Turbopack) |
 | UI | React 19, Tailwind CSS v4 |
 | Language | TypeScript |
+| Design system | Scale DS (Tailwind v4 `@theme` tokens) |
 | Font | Inter (via `next/font/google`) |
 | Design reference | Figma (MVP file) |
 
@@ -41,6 +65,11 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-## Key file
+## Key files
 
-`src/app/components/RepoCanvas.tsx` — single client component that owns all canvas state: branch positions, drag logic, bar geometry, connector paths, and the scrollable layout.
+| File | Responsibility |
+|---|---|
+| `src/app/components/RepoCanvas.tsx` | Repo canvas: bar geometry, pills, connectors, scroll/glow |
+| `src/app/components/BranchCanvas.tsx` | Branch build canvas: zoom/pan, draggable node, navbar |
+| `src/app/branch/[...name]/page.tsx` | Catch-all route that opens a branch by name |
+| `src/design-system/` | Scale DS design tokens |
