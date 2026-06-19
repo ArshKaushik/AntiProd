@@ -44,10 +44,11 @@ next-env.d.ts
 /.claude/*
 !/.claude/settings.json
 
-# local agent / tooling scaffolding (python env, installed skill artifacts)
+# local agent / tooling scaffolding (python env, installed skill artifacts).
+# skills-lock.json is intentionally tracked — it pins the project's skills for
+# reproducible installs (like package-lock.json).
 /.venv/
 /.agents/
-/skills-lock.json
 
 # graphify: the graph + report are committed for the team, but local cache,
 # dated backups, API-cost tracking, and the machine-specific python path are not
