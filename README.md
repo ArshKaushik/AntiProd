@@ -73,3 +73,20 @@ Open [http://localhost:3000](http://localhost:3000).
 | `src/app/components/BranchCanvas.tsx` | Branch build canvas: zoom/pan, draggable node, navbar |
 | `src/app/branch/[...name]/page.tsx` | Catch-all route that opens a branch by name |
 | `src/design-system/` | Scale DS design tokens |
+
+## Developer tooling & skills
+
+This repo is set up for AI-assisted development (Claude Code). The relevant
+pieces are committed so the whole team gets the same setup:
+
+| What | Where | Purpose |
+|---|---|---|
+| **Skills lockfile** | `skills-lock.json` | Pins the project's [agent skills](https://docs.claude.com/en/docs/claude-code) by source + hash (like `package-lock.json`) so everyone installs the same ones. Currently pins **agentation**. The installed skill files (`.agents/`, `.claude/skills/`) are *not* committed — they're regenerated from this lockfile. |
+| **graphify** | `graphify-out/` | A persistent knowledge graph of the codebase (god nodes, communities, cross-file relationships). Query it with `graphify query "<question>"`, `graphify path "<A>" "<B>"`, `graphify explain "<concept>"`, and refresh it after code changes with `graphify update .`. Open `graphify-out/graph.html` to browse it visually. |
+| **agentation** | rendered in `layout.tsx` (dev only) | An in-app visual feedback toolbar — drop annotations directly on the running app and the agent reads them over MCP. |
+| **Project hooks** | `.claude/settings.json` | Shared Claude Code hooks that nudge graph-first exploration (use `graphify` before raw grep/read). |
+| **Agent instructions** | `CLAUDE.md`, `AGENTS.md` | Conventions the AI follows — graphify usage rules and the note that this Next.js version has breaking changes (check `node_modules/next/dist/docs/` before coding). |
+
+> **New teammates:** after `npm install`, install the pinned skills from
+> `skills-lock.json` via your Claude Code skills tooling so `agentation` and the
+> graph workflow work the same as everyone else's.
