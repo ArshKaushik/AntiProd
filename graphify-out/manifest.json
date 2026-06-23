@@ -108,5 +108,75 @@
     "mtime": 1781906667.6334026,
     "ast_hash": "6e6f4e8f31af320bae6d89fc8c932611",
     "semantic_hash": ""
+  },
+  "research/01-figma.md": {
+    "mtime": 1782254250.1924603,
+    "ast_hash": "f44f1bfd4b83e298480c6b349d020dc0",
+    "semantic_hash": ""
+  },
+  "research/02-ai-dev-tools.md": {
+    "mtime": 1782254191.90054,
+    "ast_hash": "a32b267a202438b8732d4f689145cb4a",
+    "semantic_hash": ""
+  },
+  "research/03-ai-design-tools.md": {
+    "mtime": 1782254883.6038423,
+    "ast_hash": "0dd0bca60c2eba75824b9bcbae0d473a",
+    "semantic_hash": ""
+  },
+  "research/04-pm-project-tracking.md": {
+    "mtime": 1782254253.6995056,
+    "ast_hash": "5f75d2dd4cfcf6d571ca1e3b8ee447e0",
+    "semantic_hash": ""
+  },
+  "research/05-design-handoff-docs.md": {
+    "mtime": 1782254519.690993,
+    "ast_hash": "77dd337f88c85658b9464601e0bbd03c",
+    "semantic_hash": ""
+  },
+  "research/06-no-code-design-to-production.md": {
+    "mtime": 1782254316.30153,
+    "ast_hash": "0ed097039d34649846846c2e789bfb01",
+    "semantic_hash": ""
+  },
+  "research/07-graveyard.md": {
+    "mtime": 1782254362.975141,
+    "ast_hash": "b5a4393a577ce3e8d807bb3490b0aa40",
+    "semantic_hash": ""
+  },
+  "research/08-adobe-sketch-interaction.md": {
+    "mtime": 1782254298.1634283,
+    "ast_hash": "4dca8516e8305281c0da0e58b8083e85",
+    "semantic_hash": ""
+  },
+  "research/09-community-job-market.md": {
+    "mtime": 1782254570.0854282,
+    "ast_hash": "a5b780985647d67732d009ced724797b",
+    "semantic_hash": ""
+  },
+  "research/10-content-research.md": {
+    "mtime": 1782254790.7907584,
+    "ast_hash": "35b4daceabce34006e3c3aeb8fbbc0e8",
+    "semantic_hash": ""
+  },
+  "research/11-market-pricing-investors.md": {
+    "mtime": 1782254520.359498,
+    "ast_hash": "f2addce3281a4d14fb4de249707dc979",
+    "semantic_hash": ""
+  },
+  "research/12-synthesis.md": {
+    "mtime": 1782255420.0203698,
+    "ast_hash": "4f6a94b070aa1e324001a3f98f92bf05",
+    "semantic_hash": ""
+  },
+  "research/index.md": {
+    "mtime": 1782255995.031716,
+    "ast_hash": "71bd4134785c2445ddd790e21679f8cc",
+    "semantic_hash": ""
+  },
+  "research/plan.md": {
+    "mtime": 1782253923.330218,
+    "ast_hash": "b0db5132c5597f031492180db7bceb82",
+    "semantic_hash": ""
   }
 }

@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AntiProd — Competitive Research 2026</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0c0c0c;--surface:#141414;--surface2:#1c1c1c;
+  --border:#262626;--border2:#333;--faint:#404040;
+  --text:#e5e5e5;--muted:#737373;
+  --green:#16a34a;--green-bg:#052e16;--green-border:#14532d;
+  --amber:#b45309;--amber-bg:#1c1107;--amber-border:#78350f;
+  --red:#dc2626;--red-bg:#1c0a0a;--red-border:#7f1d1d;
+  --blue:#3b82f6;--blue-bg:#0c1833;--blue-border:#1e3a8a;
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --mono:'SF Mono','Fira Code',monospace;
+  --sidebar:220px;
+}
+html{scroll-behavior:smooth;font-size:15px}
+body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.7;min-height:100vh}
+
+/* Layout */
+.layout{display:grid;grid-template-columns:var(--sidebar) 1fr;min-height:100vh}
+
+/* Sidebar */
+.sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid var(--border);padding:20px 0;font-size:13px}
+.sidebar::-webkit-scrollbar{width:4px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.sidebar-brand{padding:0 20px 16px;border-bottom:1px solid var(--border);margin-bottom:12px}
+.sidebar-brand .name{font-size:13px;font-weight:600;letter-spacing:-.01em}
+.sidebar-brand .sub{font-size:11px;color:var(--muted);margin-top:2px}
+.nav-group{padding:0 10px;margin-bottom:2px}
+.nav-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);padding:8px 8px 3px}
+.nav-link{display:block;padding:4px 8px;color:var(--muted);text-decoration:none;border-radius:4px;transition:color .12s,background .12s;line-height:1.4}
+.nav-link:hover,.nav-link.active{color:var(--text);background:var(--surface2)}
+.nav-link.sub{padding-left:16px;font-size:12px}
+.nav-link.sub:hover{color:var(--muted)}
+.nav-link.sub.active{color:var(--text)}
+
+/* Sections */
+.main{max-width:780px;margin:0 auto;width:100%}
+.section{padding:52px 52px;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.header-sec{padding:52px 52px 44px;border-bottom:1px solid var(--border)}
+
+/* Type */
+h1{font-size:24px;font-weight:700;letter-spacing:-.03em;line-height:1.25;margin-bottom:10px}
+h2{font-size:18px;font-weight:600;letter-spacing:-.02em;margin-top:44px;margin-bottom:14px}
+h2:first-child{margin-top:0}
+h3{font-size:14px;font-weight:600;margin-top:28px;margin-bottom:8px}
+h3:first-child{margin-top:0}
+p{color:#c4c4c4;margin-bottom:12px;max-width:62ch}
+p:last-child{margin-bottom:0}
+strong{color:var(--text);font-weight:600}
+em{font-style:italic;color:#aaa}
+code{font-family:var(--mono);font-size:12px;background:var(--surface2);padding:1px 5px;border-radius:3px;color:#93c5fd}
+.meta{font-size:11px;color:var(--muted);font-family:var(--mono);margin-bottom:16px}
+
+/* Verdict */
+.verdict{background:var(--surface);border:1px solid var(--border2);border-left:3px solid var(--blue);border-radius:8px;padding:18px 22px;margin-top:20px}
+.verdict-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:8px}
+.verdict p{color:var(--text);font-size:14px;line-height:1.6;max-width:none;margin:0}
+
+/* Layers SVG container */
+.layers-wrap{margin:24px 0}
+
+/* Stats grid */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:10px;margin:20px 0}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px}
+.stat-n{font-size:30px;font-weight:700;letter-spacing:-.04em;line-height:1;margin-bottom:5px}
+.stat-l{font-size:12px;color:var(--muted);line-height:1.4}
+.stat-s{font-size:10px;color:var(--faint);margin-top:3px;font-family:var(--mono)}
+
+/* Highlight boxes */
+.box{background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:16px 20px;margin:16px 0}
+.box p{max-width:none;margin:0;font-size:13px}
+.box.amber{border-color:var(--amber-border);background:var(--amber-bg)}
+.box.amber p{color:#fbbf24}
+.box.green{border-color:var(--green-border);background:var(--green-bg)}
+.box.green p{color:#86efac}
+.box.red{border-color:var(--red-border);background:var(--red-bg)}
+.box.red p{color:#fca5a5}
+.box.blue{border-color:var(--blue-border);background:var(--blue-bg)}
+.box.blue p{color:#93c5fd}
+
+/* Gap map */
+.gap-map{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:20px 0}
+.gap-row{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:start;padding:12px 14px;border-bottom:1px solid var(--border);transition:background .1s}
+.gap-row:last-child{border-bottom:none}
+.gap-row:hover{background:var(--surface)}
+.gap-n{font-size:10px;font-weight:600;font-family:var(--mono);color:var(--faint);padding-top:2px}
+.gap-step{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px}
+.gap-tools{font-size:11px;color:var(--muted);line-height:1.4}
+.badge{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:3px;white-space:nowrap;align-self:start;margin-top:2px}
+.b-sat{background:#1a0000;color:#f87171;border:1px solid #450a0a}
+.b-served{background:#0a1a0a;color:#4ade80;border:1px solid var(--green-border)}
+.b-part{background:#1a1000;color:#fbbf24;border:1px solid #451a03}
+.b-cont{background:#1a0f00;color:#fb923c;border:1px solid #7c2d12}
+.b-gap{background:var(--blue-bg);color:#60a5fa;border:1px solid var(--blue-border)}
+
+/* Scorecard */
+.scorecard{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:20px 0;font-size:12px}
+.sc-head{display:grid;grid-template-columns:155px repeat(4,1fr);padding:8px 14px;background:var(--surface2);border-bottom:1px solid var(--border);gap:6px}
+.sc-head span{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.sc-row{display:grid;grid-template-columns:155px repeat(4,1fr);padding:9px 14px;border-bottom:1px solid var(--border);gap:6px;align-items:center;transition:background .1s}
+.sc-row:last-child{border-bottom:none}
+.sc-row:hover{background:var(--surface)}
+.tool-n{font-weight:600;color:var(--text);font-size:12px;line-height:1.3}
+.tool-s{font-size:10px;color:var(--muted)}
+.dots{display:flex;gap:3px;align-items:center}
+.dot{width:7px;height:7px;border-radius:50%}
+.df{background:var(--green)}
+.dh{background:var(--amber)}
+.de{background:var(--border2)}
+
+/* Tables */
+.tbl{width:100%;border-collapse:collapse;font-size:13px;margin:16px 0}
+.tbl th{text-align:left;padding:7px 12px;font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);background:var(--surface2);border:1px solid var(--border)}
+.tbl td{padding:9px 12px;border:1px solid var(--border);color:#c4c4c4;vertical-align:top;line-height:1.5}
+.tbl td:first-child{font-weight:600;color:var(--text)}
+.tbl tr:hover td{background:var(--surface)}
+
+/* Graveyard */
+.grave-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:20px 0}
+.grave-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px}
+.grave-card.hero{grid-column:span 2;border-color:var(--red-border);background:var(--red-bg)}
+.dead-tag{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--red);margin-bottom:5px}
+.dead-name{font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px}
+.dead-yr{font-size:11px;color:var(--muted);font-family:var(--mono);font-weight:400;margin-left:6px}
+.dead-peak{font-size:11px;color:var(--muted);margin-bottom:7px}
+.dead-l{font-size:12px;color:#c4c4c4;line-height:1.5}
+.dead-l strong{color:var(--text)}
+
+/* Mechanisms */
+.mech-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:20px 0}
+.mech-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px}
+.mech-n{font-size:22px;font-weight:800;color:var(--faint);font-family:var(--mono);line-height:1;margin-bottom:7px}
+.mech-t{font-size:13px;font-weight:600;color:var(--text);margin-bottom:5px}
+.mech-d{font-size:12px;color:var(--muted);line-height:1.5}
+
+/* Quotes */
+.quote{border-left:2px solid var(--border2);padding:10px 18px;margin:16px 0}
+.quote p{font-style:italic;color:#c4c4c4;font-size:14px;margin-bottom:6px;max-width:none}
+.quote-attr{font-size:11px;color:var(--muted)}
+
+/* Questions */
+.q-block{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:20px 0}
+.q-head{padding:14px 18px;background:var(--surface2);border-bottom:1px solid var(--border)}
+.q-num{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.q-title{font-size:14px;font-weight:600;color:var(--text)}
+.q-body{padding:18px 18px}
+.q-body p{font-size:13px;margin-bottom:10px;max-width:none}
+.q-body p:last-child{margin-bottom:0}
+
+/* First user callout */
+.first-user{background:var(--blue-bg);border:1px solid var(--blue-border);border-radius:8px;padding:14px 18px;margin:12px 0}
+.first-user-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);margin-bottom:8px}
+.first-user p{font-size:13px;color:#bfdbfe;max-width:none;margin:0;line-height:1.6}
+
+/* Warnings */
+.warnings{display:flex;flex-direction:column;gap:8px;margin:16px 0}
+.warn-card{background:var(--red-bg);border:1px solid var(--red-border);border-radius:7px;padding:12px 14px;display:grid;grid-template-columns:18px 1fr;gap:10px;align-items:start}
+.warn-icon{color:#f87171;font-size:13px;line-height:1.7}
+.warn-text{font-size:12px;color:#fca5a5;line-height:1.5}
+.warn-text strong{color:#fca5a5}
+
+/* Signals */
+.signals{display:flex;flex-direction:column;gap:8px;margin:16px 0}
+.sig-card{background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:12px 14px;display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start;transition:border-color .12s}
+.sig-card:hover{border-color:var(--border2)}
+.sig-n{font-size:11px;font-weight:700;color:var(--muted);font-family:var(--mono);padding-top:1px}
+.sig-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
+.sig-why{font-size:12px;color:var(--muted);margin-bottom:6px;line-height:1.45}
+.sig-resp{font-size:11px;color:var(--green);padding:3px 7px;background:var(--green-bg);border:1px solid var(--green-border);border-radius:3px;display:inline-block;line-height:1.4}
+
+/* Investor pitch */
+.pitch{background:var(--surface);border:1px solid var(--blue-border);border-radius:10px;padding:24px 28px;margin:20px 0}
+.pitch-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:14px}
+.pitch p{font-size:14px;color:var(--text);line-height:1.75;max-width:none;margin:0}
+
+/* Appendix */
+.app-list{list-style:none;margin:14px 0}
+.app-list li{padding:9px 0;border-bottom:1px solid var(--border);display:grid;grid-template-columns:130px 1fr;gap:14px;font-size:13px;align-items:start}
+.app-list li:last-child{border-bottom:none}
+.app-list a{color:var(--blue);text-decoration:none;font-family:var(--mono);font-size:11px}
+.app-list a:hover{text-decoration:underline}
+.app-desc{color:var(--muted);line-height:1.5;font-size:12px}
+
+/* Legend */
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
+.legend-dot{width:9px;height:9px;border-radius:2px}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+
+/* Mobile */
+@media(max-width:720px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border)}
+  .section,.header-sec{padding:36px 20px}
+  .grave-grid,.mech-grid{grid-template-columns:1fr}
+  .grave-card.hero{grid-column:span 1}
+  .sc-head,.sc-row{grid-template-columns:120px repeat(4,1fr);font-size:11px}
+  .stat-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- Sidebar -->
+<nav class="sidebar">
+  <div class="sidebar-brand">
+    <div class="name">AntiProd</div>
+    <div class="sub">Competitive Research · Jun 2026</div>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-label">Overview</div>
+    <a href="#verdict" class="nav-link">Verdict</a>
+    <a href="#layers" class="nav-link">Three Layers</a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-label">I. Landscape</div>
+    <a href="#figma" class="nav-link sub">Figma</a>
+    <a href="#ai-dev" class="nav-link sub">AI Dev Tools</a>
+    <a href="#ai-design" class="nav-link sub">New Wave AI Design</a>
+    <a href="#pm" class="nav-link sub">PM & Tracking</a>
+    <a href="#handoff" class="nav-link sub">Handoff Layer</a>
+    <a href="#nocode" class="nav-link sub">No-Code</a>
+    <a href="#adobe" class="nav-link sub">Adobe & Sketch</a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-label">II. Community</div>
+    <a href="#stats" class="nav-link">Survey Data</a>
+    <a href="#quotes" class="nav-link">Practitioner Voices</a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-label">III. Graveyard</div>
+    <a href="#graveyard" class="nav-link">Failed Tools</a>
+    <a href="#patterns" class="nav-link">Death Patterns</a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-label">IV. Market</div>
+    <a href="#sizing" class="nav-link">Sizing & TAM</a>
+    <a href="#funding" class="nav-link">Funding Events</a>
+    <a href="#pricing" class="nav-link">Pricing</a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-label">V. Gap Map</div>
+    <a href="#gap" class="nav-link">Workflow Gap Map</a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-label">VI. Strategy</div>
+    <a href="#q1" class="nav-link">Is it defensible?</a>
+    <a href="#q2" class="nav-link">Entry point</a>
+    <a href="#q3" class="nav-link">Pivot option</a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-label">VII. Risk</div>
+    <a href="#failure" class="nav-link">Failure Mode</a>
+    <a href="#signals" class="nav-link">Signals to Watch</a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-label">VIII. Pitch</div>
+    <a href="#investor" class="nav-link">Investor Narrative</a>
+  </div>
+
+  <div class="nav-group">
+    <a href="#appendix" class="nav-link">Appendix</a>
+  </div>
+</nav>
+
+<!-- Main -->
+<main class="main">
+
+<!-- Header -->
+<div class="header-sec" id="verdict">
+  <div class="meta">12 research streams · synthesized June 2026</div>
+  <h1>The Competitive Report</h1>
+  <p>A standalone strategic assessment of the design-to-production tooling landscape — who's serving it, who's failing, where the gap is, and whether AntiProd can defensibly stand in it.</p>
+  <div class="verdict">
+    <div class="verdict-label">One-sentence verdict</div>
+    <p>AntiProd's position is defensible, but narrowly and conditionally — the gap is real and unoccupied today, but one funded competitor (Builder.io Fusion) is already standing in the doorway, AntiProd is entering late, and defensibility hinges entirely on owning the one dimension nobody else has built: <strong>a rationale-bearing design-decision memory across a monorepo's package topology, surfaced to designers without Git ceremony, enforced at PR time.</strong></p>
+  </div>
+</div>
+
+<!-- Three Layers -->
+<div class="section" id="layers">
+  <h2>What AntiProd is</h2>
+  <p>A design OS for designers, design engineers, and product managers working in a monorepo. Unit of work: a "branch card" — PRD, design, and code as one object. Output: a shipped pull request, not a Figma spec.</p>
+
+  <div class="layers-wrap">
+    <svg viewBox="0 0 660 210" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:620px">
+      <!-- Autonomous -->
+      <rect x="0" y="0" width="660" height="58" rx="7" fill="#0c1833" stroke="#1e3a8a"/>
+      <text x="18" y="21" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" letter-spacing="1" fill="#3b82f6">AUTONOMOUS LAYER</text>
+      <text x="18" y="39" font-family="-apple-system,sans-serif" font-size="12.5" fill="#93c5fd">Analytics → AI proposes and ships design improvements</text>
+      <text x="640" y="31" font-family="-apple-system,sans-serif" font-size="10" fill="#3b82f6" text-anchor="end">later →</text>
+      <!-- connector -->
+      <line x1="330" y1="58" x2="330" y2="72" stroke="#262626" stroke-width="1" stroke-dasharray="3,3"/>
+      <!-- Production -->
+      <rect x="0" y="72" width="660" height="58" rx="7" fill="#0d1a10" stroke="#14532d"/>
+      <text x="18" y="93" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" letter-spacing="1" fill="#16a34a">PRODUCTION LAYER</text>
+      <text x="18" y="111" font-family="-apple-system,sans-serif" font-size="12.5" fill="#86efac">Design + code in the same environment → shipped PR</text>
+      <!-- connector -->
+      <line x1="330" y1="130" x2="330" y2="144" stroke="#262626" stroke-width="1" stroke-dasharray="3,3"/>
+      <!-- Knowledge -->
+      <rect x="0" y="144" width="660" height="58" rx="7" fill="#0a1a0a" stroke="#166534" stroke-width="2"/>
+      <text x="18" y="165" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" letter-spacing="1" fill="#22c55e">KNOWLEDGE LAYER — LEAD HERE</text>
+      <text x="18" y="183" font-family="-apple-system,sans-serif" font-size="12.5" fill="#4ade80">Living memory of every design decision across the monorepo</text>
+    </svg>
+  </div>
+  <p style="font-size:12px;color:var(--muted)">Lead with Knowledge. Production is a contested feature-fight (Fusion, v0, Bolt). Autonomous is the right destination, premature as a lead (only 32% of practitioners trust AI output).</p>
+</div>
+
+<!-- Part I: Landscape -->
+<div class="section" id="figma">
+  <h2>I. The Landscape</h2>
+  <h3>Figma</h3>
+  <p>Figma is no longer "the design tool" — it repositioned as a <strong>design-to-product platform</strong>. IPO'd July 2025 at ~$68B day-one market cap on ~$1.06B FY2025 revenue (41% YoY, 136% NRR). It cannot be out-spent; it must be out-positioned.</p>
+  <p><strong>Figma Make</strong> connects to a real codebase via two-way GitHub integration and can open a pull request without leaving Figma. On paper, that is AntiProd's pitch. In practice, hands-on reviews are consistent and brutal.</p>
+  <div class="box amber">
+    <p><strong>Why Figma Make is shallower than it looks.</strong> Generated code does not use design-system components, hard-codes colors, overrides system typography — "div soup." Reliable for ~one screen at a time. Figma owns the <em>artifact</em>, not <em>memory</em>. It offers a library; it cannot prevent a designer detaching a component or pasting a raw hex value. No system of record for rationale.</p>
+  </div>
+  <p style="margin-top:14px"><strong>The one Figma signal to watch quarterly</strong> is not Make's code quality improving. It is [Speculative] a <strong>cross-product design-memory / agentic-context layer</strong> emerging from Figma's Search &amp; Recommendations + Agent Platform teams. Better div-soup is a feature fight; a memory layer would contest AntiProd's actual differentiation.</p>
+</div>
+
+<div class="section" id="ai-dev">
+  <h3>AI Dev Tools: Cursor, v0, Copilot, Replit</h3>
+  <p>All four treat design as an <strong>ephemeral input re-derived per prompt</strong>. The shared failure has a name: <strong>"AI slop."</strong> Defaults are generic (React + Tailwind + shadcn everywhere). Design systems are bolted on as soft suggestions the model ignores under pressure.</p>
+  <div class="box">
+    <p><strong>The drift problem (Cursor user, verbatim):</strong> "You end up with five slightly different versions of the same component because the AI didn't know how to reuse the first one." None hold persistent design memory. All reconstruct design state from scratch each session.</p>
+  </div>
+  <table class="tbl" style="margin-top:16px">
+    <thead><tr><th>Tool</th><th>Shipping</th><th>Design awareness</th><th>Threat level</th></tr></thead>
+    <tbody>
+      <tr><td>Cursor</td><td>Code to PR</td><td>Design Mode mis-maps values; generates new components inline rather than reusing existing ones</td><td>Low — racing toward engineering autonomy, no design-memory signal</td></tr>
+      <tr><td>v0</td><td>Branch → PR → deploy</td><td>Registry passes tokens but trained on default shadcn/ui — coerces your DS toward shadcn</td><td>Medium — strongest shipping; could expand to non-shadcn</td></tr>
+      <tr><td>Copilot</td><td>Partial</td><td>Bidirectional Figma MCP (Mar 2026); stateless, requires perfect Figma hygiene</td><td>Low-medium — transport pipe, no persistence between sessions</td></tr>
+      <tr><td>Replit</td><td>Deploy</td><td>Stock libraries only; zero design-system awareness</td><td>Low</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section" id="ai-design">
+  <h3>New Wave AI Design Tools</h3>
+  <p>Crowded and fast-moving. Lovable at $500M ARR, Google moving Figma's stock 11% with a free experiment (Stitch). The problem is validated. Almost every tool runs at prompt → one-off UI and differentiation collapses on four dimensions: <strong>Consistency, Team/monorepo, Shipping, Knowledge.</strong></p>
+
+  <div class="scorecard">
+    <div class="sc-head">
+      <span>Tool</span><span>Consistency</span><span>Team/mono</span><span>Shipping</span><span>Knowledge</span>
+    </div>
+    <div class="sc-row" style="background:rgba(30,58,138,0.15)">
+      <div><div class="tool-n">Builder.io Fusion</div><div class="tool-s">closest competitor</div></div>
+      <div class="dots"><span class="dot df"></span><span class="dot df"></span><span class="dot df"></span><span class="dot df"></span></div>
+      <div class="dots"><span class="dot df"></span><span class="dot df"></span><span class="dot df"></span><span class="dot df"></span></div>
+      <div class="dots"><span class="dot df"></span><span class="dot df"></span><span class="dot df"></span><span class="dot dh"></span></div>
+      <div class="dots"><span class="dot df"></span><span class="dot df"></span><span class="dot de"></span><span class="dot de"></span></div>
+    </div>
+    <div class="sc-row">
+      <div><div class="tool-n">Bolt.new</div><div class="tool-s">DS Agents Mar 2026</div></div>
+      <div class="dots"><span class="dot df"></span><span class="dot df"></span><span class="dot df"></span><span class="dot de"></span></div>
+      <div class="dots"><span class="dot df"></span><span class="dot df"></span><span class="dot de"></span><span class="dot de"></span></div>
+      <div class="dots"><span class="dot df"></span><span class="dot df"></span><span class="dot df"></span><span class="dot de"></span></div>
+      <div class="dots"><span class="dot dh"></span><span class="dot de"></span><span class="dot de"></span><span class="dot de"></span></div>
+    </div>
+    <div class="sc-row">
+      <div><div class="tool-n">Subframe</div></div>
+      <div class="dots"><span class="dot df"></span><span class="dot df"></span><span class="dot df"></span><span class="dot df"></span></div>
+      <div class="dots"><span class="dot df"></span><span class="dot de"></span><span class="dot de"></span><span class="dot de"></span></div>
+      <div class="dots"><span class="dot dh"></span><span class="dot de"></span><span class="dot de"></span><span class="dot de"></span></div>
+      <div class="dots"><span class="dot dh"></span><span class="dot de"></span><span class="dot de"></span><span class="dot de"></span></div>
+    </div>
+    <div class="sc-row">
+      <div><div class="tool-n">Anima Frontier</div></div>
+      <div class="dots"><span class="dot df"></span><span class="dot df"></span><span class="dot df"></span><span class="dot de"></span></div>
+      <div class="dots"><span class="dot df"></span><span class="dot df"></span><span class="dot de"></span><span class="dot de"></span></div>
+      <div class="dots"><span class="dot dh"></span><span class="dot de"></span><span class="dot de"></span><span class="dot de"></span></div>
+      <div class="dots"><span class="dot dh"></span><span class="dot de"></span><span class="dot de"></span><span class="dot de"></span></div>
+    </div>
+    <div class="sc-row">
+      <div><div class="tool-n">v0 (Vercel)</div></div>
+      <div class="dots"><span class="dot dh"></span><span class="dot de"></span><span class="dot de"></span><span class="dot de"></span></div>
+      <div class="dots"><span class="dot df"></span><span class="dot de"></span><span class="dot de"></span><span class="dot de"></span></div>
+      <div class="dots"><span class="dot df"></span><span class="dot df"></span><span class="dot df"></span><span class="dot df"></span></div>
+      <div class="dots"><span class="dot de"></span><span class="dot de"></span><span class="dot de"></span><span class="dot de"></span></div>
+    </div>
+    <div class="sc-row">
+      <div><div class="tool-n">Tempo Labs</div><div class="tool-s">personal GitHub only</div></div>
+      <div class="dots"><span class="dot dh"></span><span class="dot de"></span><span class="dot de"></span><span class="dot de"></span></div>
+      <div class="dots"><span class="dot dh"></span><span class="dot de"></span><span class="dot de"></span><span class="dot de"></span></div>
+      <div class="dots"><span class="dot df"></span><span class="dot df"></span><span class="dot de"></span><span class="dot de"></span></div>
+      <div class="dots"><span class="dot de"></span><span class="dot de"></span><span class="dot de"></span><span class="dot de"></span></div>
+    </div>
+    <div class="sc-row">
+      <div><div class="tool-n">Figma Make</div></div>
+      <div class="dots"><span class="dot dh"></span><span class="dot de"></span><span class="dot de"></span><span class="dot de"></span></div>
+      <div class="dots"><span class="dot df"></span><span class="dot df"></span><span class="dot de"></span><span class="dot de"></span></div>
+      <div class="dots"><span class="dot df"></span><span class="dot de"></span><span class="dot de"></span><span class="dot de"></span></div>
+      <div class="dots"><span class="dot de"></span><span class="dot de"></span><span class="dot de"></span><span class="dot de"></span></div>
+    </div>
+    <div class="sc-row">
+      <div><div class="tool-n">Lovable</div><div class="tool-s">$500M ARR · security issues</div></div>
+      <div class="dots"><span class="dot df"></span><span class="dot de"></span><span class="dot de"></span><span class="dot de"></span></div>
+      <div class="dots"><span class="dot df"></span><span class="dot de"></span><span class="dot de"></span><span class="dot de"></span></div>
+      <div class="dots"><span class="dot df"></span><span class="dot df"></span><span class="dot df"></span><span class="dot de"></span></div>
+      <div class="dots"><span class="dot de"></span><span class="dot de"></span><span class="dot de"></span><span class="dot de"></span></div>
+    </div>
+    <div class="sc-row" style="background:rgba(21,128,61,0.1)">
+      <div><div class="tool-n" style="color:#4ade80">AntiProd (thesis)</div></div>
+      <div class="dots"><span class="dot df"></span><span class="dot df"></span><span class="dot df"></span><span class="dot df"></span></div>
+      <div class="dots"><span class="dot df"></span><span class="dot df"></span><span class="dot df"></span><span class="dot df"></span></div>
+      <div class="dots"><span class="dot df"></span><span class="dot df"></span><span class="dot df"></span><span class="dot df"></span></div>
+      <div class="dots"><span class="dot df"></span><span class="dot df"></span><span class="dot df"></span><span class="dot df"></span></div>
+    </div>
+  </div>
+  <p style="font-size:11px;color:var(--muted)">●●●● strong &nbsp;·&nbsp; ●●○○ partial &nbsp;·&nbsp; ○○○○ absent &nbsp;·&nbsp; Knowledge column is empty across every competitor.</p>
+
+  <div class="box" style="margin-top:14px">
+    <p><strong>KNOWLEDGE is the single most unsolved dimension across all 20+ tools.</strong> Fusion's "remembers patterns and naming," Stitch's manually-authored DESIGN.md, Bolt's re-read of the present system — all encode a <em>snapshot</em>, never an accumulating decision history. That intersection (enforced memory + monorepo topology + mergeable PR) is the lane.</p>
+  </div>
+</div>
+
+<div class="section" id="pm">
+  <h3>PM & Project Tracking</h3>
+  <p>Every PM tool represents work as a <strong>ticket — a pointer to scattered context, not a container of it.</strong> When Jira says "implement the new checkout flow," the patterns, rationale, and component mapping live in Figma comments, Slack threads, and a stale Notion doc. Cost: ~26 working days lost per year, 3× higher revision cycles.</p>
+  <p><strong>Linear's agent infrastructure</strong> is the most relevant signal here: its agent session primitive can take an issue and autonomously produce a PR. But its docs reference code context and <strong>never mention Figma, design files, or design systems.</strong> Linear is building issue→PR while completely ignoring the design surface — AntiProd's cleanest open flank.</p>
+</div>
+
+<div class="section" id="handoff">
+  <h3>The Handoff &amp; Documentation Layer</h3>
+  <p>"The handoff is broken" has been the #1 complaint for a decade. It stays broken because <strong>70% of the pain cannot be fixed by tooling.</strong></p>
+  <div class="stat-grid" style="grid-template-columns:1fr 1fr 1fr;margin:16px 0">
+    <div class="stat-card"><div class="stat-n" style="color:var(--green);font-size:24px">30%</div><div class="stat-l">Tooling problem — tokens don't sync, no enforcement</div></div>
+    <div class="stat-card"><div class="stat-n" style="color:var(--amber);font-size:24px">40%</div><div class="stat-l">Process problem — waterfall handoff, incomplete specs, governance</div></div>
+    <div class="stat-card"><div class="stat-n" style="color:var(--red);font-size:24px">30%</div><div class="stat-l">Cultural — designers think the mockup is the product</div></div>
+  </div>
+  <p>Every incumbent (Storybook, Zeplin, Supernova, Zeroheight, Chromatic, Token Studio) automates one translation slice between Figma-truth and code-truth. All are bridges — and bridges drift. <strong>Specify (standalone token platform) shut down Oct 2024</strong> — proof this is not a venture-scale business. <strong>Zeplin laid off ~35% of staff Aug 2023</strong> after Figma Dev Mode absorbed its reason to exist.</p>
+</div>
+
+<div class="section" id="nocode">
+  <h3>No-Code &amp; Design-to-Production</h3>
+  <p>The market has bifurcated: <strong>marketing-site builders that gave up on apps</strong> (Webflow, Framer) vs. <strong>code-output tools that target your repo</strong> (Builder.io, Plasmic). AntiProd bets on the second side — the correct bet.</p>
+  <div class="box amber">
+    <p><strong>Clearest signal in the entire market:</strong> Webflow built Logic (event automations) and User Accounts (auth/membership) to climb into web applications — and <strong>killed both</strong> (Logic disabled Jun 27 2025; User Accounts sunset Jan 29 2026). Framer tells users it's "the wrong fit" for apps. The no-code ceiling is structural, not a tooling gap.</p>
+  </div>
+  <p style="margin-top:12px">Capital asymmetry: the abandoned thesis (hosted sites) is over-capitalized (Framer $2B, Webflow $4B); the aligned thesis (code output) is under-capitalized (Builder ~$37M, Plasmic seed). Opening for AntiProd — but incumbents could redirect capital if the model proves out.</p>
+</div>
+
+<div class="section" id="adobe">
+  <h3>Adobe, Sketch &amp; Interaction Tools</h3>
+  <p><strong>Adobe is not a direct competitor.</strong> Killed Adobe XD, paid a $1B break-up fee when the $20B Figma acquisition was blocked, redirected AI toward enterprise marketing content (Firefly). Treat as upstream-asset integration, not a threat.</p>
+  <p><strong>Why Sketch lost</strong> is the most instructive story. Figma was initially worse at drawing. The winning factor was <strong>browser-based real-time collaboration</strong> — Figma made the artifact a live URL, turning "export-and-email" into "here's a link." Designers switched for a workflow change, not a feature change. Lesson: workflow beats features; be native to the new substrate (for AntiProd: the monorepo) from day one.</p>
+  <p><strong>Interaction tools split by output type.</strong> ProtoPie/Principle/Origami produce specs developers re-implement by hand — ignore for deep integration. <strong>Rive and Lottie produce runtime artifacts committed to the codebase</strong> (.riv, Lottie JSON). AntiProd should detect, index, and track these as first-class interaction patterns in the monorepo.</p>
+</div>
+
+<!-- Part II: Community -->
+<div class="section" id="stats">
+  <h2>II. What the Community Is Saying</h2>
+  <h3>Survey Data — 4 independent sources, all converging</h3>
+  <div class="stat-grid">
+    <div class="stat-card"><div class="stat-n" style="color:#f87171">32%</div><div class="stat-l">can rely on AI output for their work</div><div class="stat-s">Figma 2025</div></div>
+    <div class="stat-card"><div class="stat-n" style="color:#fbbf24">46.3%</div><div class="stat-l">report significant inconsistencies between design system and implementation</div><div class="stat-s">UX Tools 2024</div></div>
+    <div class="stat-card"><div class="stat-n" style="color:#fbbf24">60%</div><div class="stat-l">sync design tokens manually</div><div class="stat-s">zeroheight 2026</div></div>
+    <div class="stat-card"><div class="stat-n" style="color:#f87171">7%</div><div class="stat-l">achieve full design system adoption across all teams</div><div class="stat-s">zeroheight 2026</div></div>
+    <div class="stat-card"><div class="stat-n" style="color:#fbbf24">91%</div><div class="stat-l">say design-to-development handoff needs improvement</div><div class="stat-s">Figma 2025</div></div>
+    <div class="stat-card"><div class="stat-n" style="color:#f87171">10%</div><div class="stat-l">have AI built into design processes — flat year-over-year</div><div class="stat-s">zeroheight 2026</div></div>
+  </div>
+  <div class="box green" style="margin-top:4px">
+    <p><strong>The clearest signal:</strong> muzani on Hacker News: <em>"One trick is to have it go over your design system and summarize everything into ui.md and such."</em> Designers are manually writing a Markdown file to feed their design system into AI, per project, by hand — because no tool does it natively. They are hand-building AntiProd's core feature.</p>
+  </div>
+</div>
+
+<div class="section" id="quotes">
+  <h3>Practitioner Voices</h3>
+
+  <div class="quote">
+    <p>"The front-end is <em>always</em> your source of truth… There is no Web Vitals for design systems to detect that most pull requests used custom components."</p>
+    <div class="quote-attr">— Robin Rendle, design engineer (naming the exact gap AntiProd fills)</div>
+  </div>
+  <div class="quote">
+    <p>"The design system is the API that allows AI to build your product safely… AI generates code. Design systems generate understanding." Most systems have "almost none" of the reasoning layer that would let AI stay consistent.</p>
+    <div class="quote-attr">— Romina Kavcic</div>
+  </div>
+  <div class="quote">
+    <p>"You could be looking at up to 60 artifacts per design iteration. It's ludicrous."</p>
+    <div class="quote-attr">— Jim Nielsen</div>
+  </div>
+  <div class="quote">
+    <p>"A Figma file ends up on the cutting room floor on its way to production… it's the wrong medium."</p>
+    <div class="quote-attr">— Evan Lovely, Knapsack</div>
+  </div>
+  <div class="quote">
+    <p>On documentation falling out of sync with implementation: "we don't really have an agreed upon solution to this problem."</p>
+    <div class="quote-attr">— Amy Hupe, design systems consultant</div>
+  </div>
+
+  <h3 style="margin-top:28px">The Design Engineer Job Market</h3>
+  <p>The role is now standard across Vercel, Linear, Resend, Hex, Pilot.com, Perplexity, Miro, Ramp, Braze. Salary: <strong>$170k–$313k</strong>, paid as senior engineering. Pilot.com's JD already lists "vibecoding tools" and "MCP/intent-driven UI" as requirements — the AI-native workflow AntiProd builds for has moved from manifesto to job requirement. Budget signal: these are engineering-compensation buyers.</p>
+</div>
+
+<!-- Part III: Graveyard -->
+<div class="section" id="graveyard">
+  <h2>III. The Graveyard</h2>
+  <p>Every dead tool was a feature, not a platform — it occupied one workflow slice and depended on living next to wherever the actual design work happened. When Figma collapsed the entire workflow into one canvas, every single-slice tool became a tab the user could close.</p>
+
+  <div class="grave-grid">
+    <div class="grave-card hero">
+      <div class="dead-tag">★ Study this one most — AntiProd structurally resembles it</div>
+      <div class="dead-name">Abstract <span class="dead-yr">sunsetting Jan 2026</span></div>
+      <div class="dead-peak">~$30M raised · "Git for design"</div>
+      <div class="dead-l">Died for three reasons: (1) versioned Sketch files — substrate disappeared when market moved to Figma; (2) Figma made versioning a free built-in; (3) <strong>the Git mental model was too heavy</strong> — designers didn't want explicit version control, they wanted cloud autosave + named versions. AntiProd must make version control invisible to designers: engineers see branches/PRs; designers see "versions/proposals." Same Git truth underneath, zero Git literacy required.</div>
+    </div>
+
+    <div class="grave-card">
+      <div class="dead-tag">Cautionary tale</div>
+      <div class="dead-name">InVision <span class="dead-yr">dead 2024</span></div>
+      <div class="dead-peak">$350M raised · ~$2B peak · $100M+ ARR</div>
+      <div class="dead-l">Sat on top of Sketch/Photoshop. Figma erased the upload-to-InVision step. Escape attempts (Studio, DSM) fought the last war. <strong>$350M bought sprawl, not focus.</strong></div>
+    </div>
+
+    <div class="grave-card">
+      <div class="dead-tag">Proof: distribution ≠ moat</div>
+      <div class="dead-name">Adobe XD <span class="dead-yr">discontinued 2023</span></div>
+      <div class="dead-peak">Unlimited resources + Creative Cloud distribution</div>
+      <div class="dead-l">Desktop-first, single-player tool in a browser-native real-time world. Adobe's answer: buy Figma ($20B, blocked, $1B break fee). <strong>Distribution doesn't beat paradigm.</strong></div>
+    </div>
+
+    <div class="grave-card">
+      <div class="dead-tag">Bridge model failure</div>
+      <div class="dead-name">Zeplin <span class="dead-yr">35% layoffs 2023</span></div>
+      <div class="dead-peak">The original handoff tool</div>
+      <div class="dead-l">Squeezed the moment Figma built Dev Mode. Survives in a shrinking niche. <strong>A handoff tool is a feature, not a company.</strong></div>
+    </div>
+
+    <div class="grave-card">
+      <div class="dead-tag">VC lesson</div>
+      <div class="dead-name">Specify <span class="dead-yr">shut down Oct 2024</span></div>
+      <div class="dead-peak">Standalone token distribution platform</div>
+      <div class="dead-l">Proof that a token-distribution startup is not a venture-scale business. Relevant to AntiProd's design-system-layer positioning.</div>
+    </div>
+  </div>
+</div>
+
+<div class="section" id="patterns">
+  <h3>The Four Death Mechanisms</h3>
+  <div class="mech-grid">
+    <div class="mech-card">
+      <div class="mech-n">01</div>
+      <div class="mech-t">Feature, not a platform</div>
+      <div class="mech-d">Owned one step. Defensible only while that step is separate and painful — Figma erased the boundaries.</div>
+    </div>
+    <div class="mech-card">
+      <div class="mech-n">02</div>
+      <div class="mech-t">Substrate dependency</div>
+      <div class="mech-d">Sat on someone else's files. The substrate could build your feature natively — and did. When the substrate moved, the business moved out from under you.</div>
+    </div>
+    <div class="mech-card">
+      <div class="mech-n">03</div>
+      <div class="mech-t">Moving-moat trap</div>
+      <div class="mech-d">Real-time collaboration, handoff, prototyping — all were once differentiators; all are now free baselines. A feature-win is one paradigm shift from obsolescence.</div>
+    </div>
+    <div class="mech-card">
+      <div class="mech-n">04</div>
+      <div class="mech-t">Wrong war / sprawl</div>
+      <div class="mech-d">Misread where the puck was going; expanded into unrelated territory while the core decayed. InVision's Studio, Adobe's XD — fighting the last war while losing the current one.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Part IV: Market -->
+<div class="section" id="sizing">
+  <h2>IV. The Market</h2>
+  <div class="stat-grid" style="grid-template-columns:1fr 1fr 1fr">
+    <div class="stat-card">
+      <div class="stat-n" style="font-size:20px;color:var(--text)">$0.7–2.2B</div>
+      <div class="stat-l">SOM — 2–4M relevant seats × $30–45/mo (design engineers + DS owners)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-n" style="font-size:20px;color:var(--text)">single-digit B</div>
+      <div class="stat-l">SAM — ~1M designers + frontend slice of 30M devs, 8–12M seats</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-n" style="font-size:20px;color:var(--blue)">$33→67B</div>
+      <div class="stat-l">TAM — Figma's own bottoms-up framing. The category ceiling, not the claimed market.</div>
+    </div>
+  </div>
+  <p style="margin-top:4px">The pitch line: <em>"Figma proved the design layer is a $1B-ARR, $30B+ public market. The next layer — turning design intent into consistent, shipped code — is larger and unclaimed."</em></p>
+</div>
+
+<div class="section" id="funding">
+  <h3>Key Funding Events &amp; What They Reveal</h3>
+  <table class="tbl">
+    <thead><tr><th>Event</th><th>Signal</th></tr></thead>
+    <tbody>
+      <tr><td>Figma IPO (Jul 2025) ~$68B / ~$1B ARR / 136% NRR</td><td>The category supports a durable independent public company. This is the ceiling, not the competition.</td></tr>
+      <tr><td>Adobe–Figma blocked ($20B bid, $1B break fee)</td><td>Figma >80% market share (CMA). Distribution doesn't beat paradigm.</td></tr>
+      <tr><td>Cursor: $0→$1B ARR in &lt;3 years; ~$29B</td><td>Resets what "fast" means. AI-that-ships-code gets megarounds; pure-design AI gets acquired.</td></tr>
+      <tr><td>Lovable: $0→$500M ARR in 12 months; $6.6B</td><td>AI app builders scale explosively — but lose on knowledge/consistency. Security disasters (16 vulns).</td></tr>
+      <tr><td>Accel: leads Linear + Vercel + Framer + Lovable's A</td><td>Coherent "design-engineering / product-velocity" portfolio thesis. Second target investor after a16z.</td></tr>
+      <tr><td>Galileo→Google Stitch; InVision dead; Abstract sunsetting</td><td>Point handoff tools died. Pure-design AI gets absorbed. The pattern is unambiguous.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section" id="pricing">
+  <h3>Pricing Benchmarks</h3>
+  <table class="tbl">
+    <thead><tr><th>Category / Tool</th><th>Entry</th><th>System-of-record tier</th><th>Enterprise</th></tr></thead>
+    <tbody>
+      <tr><td>Figma</td><td>$12–16/editor/mo</td><td>$45/editor (Org — branching, DS)</td><td>~$90/editor</td></tr>
+      <tr><td>Cursor</td><td>$20/mo</td><td>$40/seat + usage</td><td>$120/seat</td></tr>
+      <tr><td>v0</td><td>$20/mo</td><td>$30 + usage credits</td><td>Custom</td></tr>
+      <tr><td>Linear</td><td>$10/user</td><td>$16/user (Business)</td><td>Custom</td></tr>
+      <tr><td>Chromatic</td><td>Free (OSS Storybook)</td><td>$149/mo</td><td>$60K–$180K/yr</td></tr>
+      <tr><td style="color:var(--blue)">AntiProd (recommended)</td><td style="color:#93c5fd">$30–45/seat/mo</td><td style="color:#93c5fd">+ AI-shipping usage layer</td><td style="color:#93c5fd">SOC2/SSO at ~25–100 seats</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:12px;color:var(--muted)">Pricing power concentrates where the tool owns the design-system/consistency layer (Figma Org at $45) <em>and</em> where AI does real production work (Cursor + usage). The "system of record + AI execution" combination commands the highest price — that intersection is where AntiProd sits.</p>
+</div>
+
+<!-- Part V: Gap Map -->
+<div class="section" id="gap">
+  <h2>V. Workflow Gap Map</h2>
+  <p>The design-to-production workflow decomposed into its real steps. Steps 1–8 are served; step 9 is the contested frontier; steps 10–11 are genuinely empty — and exactly where AntiProd anchors.</p>
+
+  <div class="legend">
+    <span class="legend-item"><span class="legend-dot" style="background:#1a0000;border:1px solid #450a0a"></span>Saturated — avoid</span>
+    <span class="legend-item"><span class="legend-dot" style="background:#0a1a0a;border:1px solid var(--green-border)"></span>Served</span>
+    <span class="legend-item"><span class="legend-dot" style="background:#1a1000;border:1px solid #451a03"></span>Partial</span>
+    <span class="legend-item"><span class="legend-dot" style="background:#1a0f00;border:1px solid #7c2d12"></span>Contested</span>
+    <span class="legend-item"><span class="legend-dot" style="background:var(--blue-bg);border:1px solid var(--blue-border)"></span>Unserved — the gap</span>
+  </div>
+
+  <div class="gap-map">
+    <div class="gap-row">
+      <div class="gap-n">01</div>
+      <div><div class="gap-step">Ideation / PRD authoring</div><div class="gap-tools">Notion, Confluence, Linear Docs — prose that links out; PRD drifts from design and code independently</div></div>
+      <span class="badge b-served">Served</span>
+    </div>
+    <div class="gap-row">
+      <div class="gap-n">02</div>
+      <div><div class="gap-step">Visual design / exploration</div><div class="gap-tools">Figma (~82% share), Sketch, Framer — near-monopoly red ocean</div></div>
+      <span class="badge b-sat">Saturated</span>
+    </div>
+    <div class="gap-row">
+      <div class="gap-n">03</div>
+      <div><div class="gap-step">Design-system authoring</div><div class="gap-tools">Figma variables, Tokens Studio, Style Dictionary, Supernova — W3C DTCG solved format; governance/sync/naming stay manual</div></div>
+      <span class="badge b-part">Partial</span>
+    </div>
+    <div class="gap-row">
+      <div class="gap-n">04</div>
+      <div><div class="gap-step">Prompt → UI generation</div><div class="gap-tools">v0, Lovable ($500M ARR), Bolt, Stitch, Magic Patterns, Figma Make + 15 more</div></div>
+      <span class="badge b-sat">Saturated</span>
+    </div>
+    <div class="gap-row">
+      <div class="gap-n">05</div>
+      <div><div class="gap-step">Consistency enforcement</div><div class="gap-tools">Bolt DS Agents, Builder.io DSI, Anima Frontier, Subframe — enforces current snapshot only; nobody enforces a history of decisions</div></div>
+      <span class="badge b-part">Partial</span>
+    </div>
+    <div class="gap-row">
+      <div class="gap-n">06</div>
+      <div><div class="gap-step">Design → code translation</div><div class="gap-tools">Figma Make, Locofy, Anima, v0, Copilot Figma MCP — "div soup," the missing 20% is design intent</div></div>
+      <span class="badge b-part">Lossy</span>
+    </div>
+    <div class="gap-row">
+      <div class="gap-n">07</div>
+      <div><div class="gap-step">Project / work tracking</div><div class="gap-tools">Linear, Jira, Asana, Notion — pointers only; no design issue type exists in any tool</div></div>
+      <span class="badge b-served">Served</span>
+    </div>
+    <div class="gap-row">
+      <div class="gap-n">08</div>
+      <div><div class="gap-step">Ship a PR into a real repo</div><div class="gap-tools">v0, Tempo (personal GitHub only), Builder.io Fusion — PR-openers are weakest on consistency; deployers (Lovable) shipped security disasters</div></div>
+      <span class="badge b-part">Thin</span>
+    </div>
+    <div class="gap-row" style="background:var(--amber-bg);border-color:var(--amber-border)">
+      <div class="gap-n" style="color:var(--amber)">09</div>
+      <div><div class="gap-step" style="color:#fbbf24">Reviewed, mergeable-as-is, design-consistent PR into a monorepo</div><div class="gap-tools" style="color:var(--amber)">Builder.io Fusion (closest); nobody fully — the contested frontier</div></div>
+      <span class="badge b-cont">Contested</span>
+    </div>
+    <div class="gap-row" style="background:var(--blue-bg);border-color:var(--blue-border)">
+      <div class="gap-n" style="color:var(--blue)">10</div>
+      <div><div class="gap-step" style="color:#93c5fd">Persistent, rationale-bearing memory of <em>why</em> every design decision was made, across the monorepo</div><div class="gap-tools" style="color:var(--blue)">Nobody — genuinely unserved</div></div>
+      <span class="badge b-gap">The Gap</span>
+    </div>
+    <div class="gap-row" style="background:var(--blue-bg);border-color:var(--blue-border);border-bottom:none">
+      <div class="gap-n" style="color:var(--blue)">11</div>
+      <div><div class="gap-step" style="color:#93c5fd">Monorepo topology awareness — token change propagates to 12 apps; squad A owns checkout, squad B owns marketing</div><div class="gap-tools" style="color:var(--blue)">Nobody — genuinely unserved</div></div>
+      <span class="badge b-gap">The Gap</span>
+    </div>
+  </div>
+  <p style="font-size:12px;color:var(--muted)">Steps 10–11 are empty because filling them requires four properties simultaneously: decision memory with rationale (a ledger, not a snapshot); monorepo-native topology; enforcement as a hard PR-time constraint; and a mergeable reviewed PR. No competitor holds all four.</p>
+</div>
+
+<!-- Part VI: Conclusions -->
+<div class="section" id="q1">
+  <h2>VI. Strategic Conclusions</h2>
+
+  <div class="q-block">
+    <div class="q-head">
+      <div class="q-num">Question 1</div>
+      <div class="q-title">Is AntiProd's position defensible?</div>
+    </div>
+    <div class="q-body">
+      <p><strong>Yes — but conditionally and narrowly, and only on one axis.</strong> The defensible gap: persistent, queryable, rationale-bearing memory of every design decision — the <em>why</em>, not just the <em>what</em> — spanning a monorepo's package topology, enforced as a hard constraint at PR time. The only genuinely empty cell.</p>
+      <p>The four conditions on which defensibility rests:<br>
+      1. Own the substrate end-to-end. Any component that is "the Figma layer" is a future tombstone.<br>
+      2. Decision memory must be a <em>byproduct of work</em> (the PR, the commit, the brief) — never a discipline. Manual curation rots like every ADR before it.<br>
+      3. Version control must be invisible to designers. Make them learn Git and AntiProd inherits Abstract's adoption ceiling.<br>
+      4. Move now. The lead over Builder.io Fusion is measured in <strong>quarters, not years.</strong></p>
+      <p>Not defensible as "a better canvas," "another brief-to-PR tool," or "Figma-plus-handoff."</p>
+    </div>
+  </div>
+
+  <div class="q-block" id="q2">
+    <div class="q-head">
+      <div class="q-num">Question 2</div>
+      <div class="q-title">What is the sharpest entry point?</div>
+    </div>
+    <div class="q-body">
+      <p><strong>Lead with the Knowledge layer.</strong> Production is a contested feature-fight AntiProd enters late and under-capitalized. Autonomous is the right destination, premature as a lead (security disasters, 32% trust AI output; autonomy without memory substrate = "AI slop with a deploy button"). Knowledge is the only empty cell whose value <em>compounds</em> — a decision ledger gets more valuable each week, and no competitor can replicate a customer's two-year decision history by shipping a feature.</p>
+
+      <div class="first-user">
+        <div class="first-user-label">The first user — specific enough to call tomorrow</div>
+        <p>The <strong>staff-level design-systems engineer</strong> who owns the component library and design tokens for a multi-app monorepo at a <strong>150–800-person, design-forward, Series B–D product company</strong> on React + TypeScript + Tailwind/CSS-in-JS, where <strong>3–8 product squads ship into shared packages</strong> and design drift across those squads is already a named, painful problem. Salary $170k–$313k (engineering-comp budget signal). They are hand-building the feature with <code>ui.md</code> files today. Entry moment: the recurring, dreaded "audit and reconcile drift across the monorepo" cycle.</p>
+      </div>
+
+      <p style="margin-top:14px"><strong>Land-and-expand:</strong> land with design-systems engineer (Knowledge + enforcement) → expand to squads (Production: design-aware brief→PR) → introduce Autonomous only once memory substrate is trusted.</p>
+    </div>
+  </div>
+
+  <div class="q-block" id="q3">
+    <div class="q-head">
+      <div class="q-num">Question 3</div>
+      <div class="q-title">What is the pivot if it isn't defensible?</div>
+    </div>
+    <div class="q-body">
+      <p>The position <em>is</em> defensible — no full pivot warranted. But the strongest counterargument: "decision memory" may be a feature, not a company (Specify proved token distribution wasn't venture-scale). If customers love brief→PR but treat memory as a nice-to-have, AntiProd is a thinner Fusion entering late.</p>
+      <p>If that proves true in market, the fallback: <strong>become the "Web Vitals for design systems" — a CI/PR gate that prevents and auto-fixes drift at PR time across a monorepo.</strong> This is a <em>narrowing</em>, not a pivot — the safest version of AntiProd is the sharpest version. What the research explicitly does not support: going back into the saturated canvas, pure prompt-to-UI, or hosted-site no-code.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Part VII: Risk -->
+<div class="section" id="failure">
+  <h2>VII. The Failure Mode &amp; Signals</h2>
+
+  <div class="box red">
+    <p><strong>The single most likely failure:</strong> AntiProd ships as a layer on substrates it doesn't control — Figma files it reads and a repo it merely syncs to — making it "Figma + a nicer brief→PR." At that point it's a between-the-steps tool that either Figma absorbs from above or Builder.io Fusion out-executes from the side. This is the Abstract/InVision death. The path of least resistance: a Figma-MCP reader + code generator + PR opener. That exact product is a tombstone in the graveyard section.</p>
+  </div>
+
+  <h3 style="margin-top:24px">4 Internal Warning Signals</h3>
+  <div class="warnings">
+    <div class="warn-card">
+      <div class="warn-icon">▲</div>
+      <div class="warn-text"><strong>The demo that sells is the brief→PR demo, not the memory demo.</strong> If prospects light up at "watch it open a PR" and shrug at "watch it remember why" — re-anchor on memory immediately.</div>
+    </div>
+    <div class="warn-card">
+      <div class="warn-icon">▲</div>
+      <div class="warn-text"><strong>Customers stop opening the knowledge graph after week two.</strong> Write-only memory is rotting memory. The moat is not forming.</div>
+    </div>
+    <div class="warn-card">
+      <div class="warn-icon">▲</div>
+      <div class="warn-text"><strong>Sales keeps hitting "why not Builder.io Fusion / Figma Make?" with no crisp answer.</strong> If the rationale-ledger + monorepo-topology delta can't be stated in one sentence to a buyer, the differentiation isn't real in the product yet.</div>
+    </div>
+    <div class="warn-card">
+      <div class="warn-icon">▲</div>
+      <div class="warn-text"><strong>Any component is described internally as "the Figma layer."</strong> Per the graveyard research: that part is a future tombstone.</div>
+    </div>
+  </div>
+</div>
+
+<div class="section" id="signals">
+  <h3>7 External Signals to Watch</h3>
+  <div class="signals">
+    <div class="sig-card">
+      <div class="sig-n">01</div>
+      <div>
+        <div class="sig-title">Builder.io Fusion ships decision-history / rationale or monorepo-package-graph awareness</div>
+        <div class="sig-why">AntiProd's exact wedge. The window closes fastest here.</div>
+        <span class="sig-resp">Code-red: out-depth on automatic rationale capture; accelerate reference customers who prove accumulating-ledger lock-in</span>
+      </div>
+    </div>
+    <div class="sig-card">
+      <div class="sig-n">02</div>
+      <div>
+        <div class="sig-title">Figma Search & Recommendations ships a cross-product "design memory" or agentic-context layer</div>
+        <div class="sig-why">The one Figma move that contests AntiProd's differentiation — not better Make code quality. [Speculative]</div>
+        <span class="sig-resp">Lean into monorepo/code substrate Figma cannot own; position memory as living in the repo, not the canvas</span>
+      </div>
+    </div>
+    <div class="sig-card">
+      <div class="sig-n">03</div>
+      <div>
+        <div class="sig-title">v0, Cursor, or Copilot posts "design systems / tokens / infrastructure" roles or ships non-shadcn DS enforcement</div>
+        <div class="sig-why">Earliest signal of a move into AntiProd's lane. v0's registry going from "match shadcn" to "enforce + remember" is the specific trigger.</div>
+        <span class="sig-resp">Accelerate enforcement + memory moat; emphasize cross-disciplinary surface dev-tools bolt on grudgingly</span>
+      </div>
+    </div>
+    <div class="sig-card">
+      <div class="sig-n">04</div>
+      <div>
+        <div class="sig-title">Tempo removes personal-GitHub-only limit, or a second funded "design engineering" startup launches</div>
+        <div class="sig-why">Tempo's org-GitHub limit is its main cap on the monorepo buyer. Removing it makes it a real team competitor.</div>
+        <span class="sig-resp">Win the category-name fight with monorepo-native + decision-memory framing; don't cede "design engineering" rhetorically</span>
+      </div>
+    </div>
+    <div class="sig-card">
+      <div class="sig-n">05</div>
+      <div>
+        <div class="sig-title">An incumbent acquires a decision-memory / enforcement startup (Figma buys an MCP-context player; Linear buys a design-aware agent)</div>
+        <div class="sig-why">Google→Galileo, Figma→Diagram, Miro→Uizard — platforms absorbing knowledge-layer tools is the established pattern.</div>
+        <span class="sig-resp">Use it in the raise narrative and accelerate — validation and threat simultaneously</span>
+      </div>
+    </div>
+    <div class="sig-card">
+      <div class="sig-n">06</div>
+      <div>
+        <div class="sig-title">a16z or Accel make a Series A bet on a direct "design-engineering convergence" company that isn't AntiProd</div>
+        <div class="sig-why">The two most-aligned investors backing a rival is both competitive and fundraising.</div>
+        <span class="sig-resp">Get to these investors first; claim the "Cursor of design doesn't exist yet" narrative before someone else does</span>
+      </div>
+    </div>
+    <div class="sig-card">
+      <div class="sig-n">07</div>
+      <div>
+        <div class="sig-title">W3C DTCG or a new standard gains an enforced-decision / rationale extension</div>
+        <div class="sig-why">If the standard carries decision-rationale, the proprietary ledger commoditizes. If it carries only tokens, the reasoning layer stays differentiated.</div>
+        <span class="sig-resp">Consume the standard for interchange (the Specify lesson); keep rationale + enforcement + monorepo topology proprietary</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Part VIII: Investor Narrative -->
+<div class="section" id="investor">
+  <h2>VIII. The Investor Narrative</h2>
+  <p>In a16z's and Accel's own language, with the honest caveat up front. Say this verbatim.</p>
+
+  <div class="pitch">
+    <div class="pitch-label">Pitch — a16z · Accel</div>
+    <p>"Figma proved the design layer is a $1B-ARR, $30B+ public market — and in doing so revealed the next layer it structurally cannot own. AI now writes the code — Cursor went zero to a billion in ARR in three years — and even opens the PR; Figma Make and Builder.io Fusion both ship PRs today. But every one of these tools treats design as an ephemeral input it re-derives and forgets each prompt, which is why 'drift' and 'AI slop' are the universal complaints and only 32% of practitioners trust AI output. AntiProd owns the one thing none of them has built: a monorepo-resident, rationale-bearing memory of every design decision — the <em>why</em> behind every component, token, and rejected alternative — captured as a byproduct of the work and enforced at PR time, so AI ships code that honors not just the current design system but the entire history of decisions across the whole codebase's topology. This is your Design Engineer Fellowship thesis made real: teams aren't making assets anymore, they're building systems that generate assets continuously; execution is commoditized, so taste and systems thinking become the moat. We sell first to the staff design-systems engineer who already feels cross-package drift as personal pain and is hand-building this with <code>ui.md</code> files today. The honest risk is that we're early but not alone — Builder.io Fusion is adjacent — so our wedge is depth, not breadth: a decision ledger that compounds into per-customer switching cost no competitor can ship their way into. Code has its Cursor; the design-engineering convergence layer does not yet have its winner, and the durable value there isn't generating assets — it's owning the memory that makes generation trustworthy."</p>
+  </div>
+
+  <p style="font-size:12px;color:var(--muted)">Target a16z first (Design Engineer Fellowship thesis is pre-built for AntiProd), then Accel (Linear + Vercel + Framer + Lovable's A). Anchor the raise on SOM/SAM ($0.7–2.2B SOM; single-digit-B SAM). Use Figma's $33→67B only as the category ceiling, not the claimed market.</p>
+</div>
+
+<!-- Appendix -->
+<div class="section" id="appendix">
+  <h2>Appendix: Research Files</h2>
+  <p>Open these when you need to go deeper on a specific area. One sentence each.</p>
+  <ul class="app-list">
+    <li><a href="01-figma.md">01-figma.md</a><span class="app-desc">Deep Figma profile: Make's GitHub/PR loop, div-soup ceiling, Dev Mode/Code Connect/MCP, roadmap signals including the Search & Recommendations team.</span></li>
+    <li><a href="02-ai-dev-tools.md">02-ai-dev-tools.md</a><span class="app-desc">Cursor, v0, Copilot, Replit — the design-blindness problem, specific drift evidence, "transport not enforcement" finding.</span></li>
+    <li><a href="03-ai-design-tools.md">03-ai-design-tools.md</a><span class="app-desc">Builder.io Fusion in depth + 20 other tools scored on the four dimensions; the master competitive scorecard.</span></li>
+    <li><a href="04-pm-project-tracking.md">04-pm-project-tracking.md</a><span class="app-desc">Linear, Jira, Asana, Notion — ticket-as-pointer mechanism, context loss quantified, Linear's agent infra and its design blindness.</span></li>
+    <li><a href="05-design-handoff-docs.md">05-design-handoff-docs.md</a><span class="app-desc">Storybook, Zeplin, Supernova, Zeroheight, Chromatic, Token Studio — the "70% is not a tooling problem" finding.</span></li>
+    <li><a href="06-no-code-design-to-production.md">06-no-code-design-to-production.md</a><span class="app-desc">Webflow's killed Logic/User Accounts, Framer's ceiling, Builder/Plasmic's code-in-repo thesis, the bifurcation.</span></li>
+    <li><a href="07-graveyard.md">07-graveyard.md</a><span class="app-desc">InVision, Adobe XD, Abstract, Avocode — four death mechanisms mapped to AntiProd failure-mode by failure-mode.</span></li>
+    <li><a href="08-adobe-sketch-interaction.md">08-adobe-sketch-interaction.md</a><span class="app-desc">Adobe's post-acquisition-failure pivot, why Sketch lost (workflow not features), Rive/Lottie vs ProtoPie.</span></li>
+    <li><a href="09-community-job-market.md">09-community-job-market.md</a><span class="app-desc">Verbatim practitioner voice, design-engineer job market ($170k–$313k), annual survey data, the ui.md story.</span></li>
+    <li><a href="10-content-research.md">10-content-research.md</a><span class="app-desc">Long-form diagnoses from Rendle, Appleton, Kavcic, Nielsen, Comeau, Knapsack — the practitioner thesis in their own words.</span></li>
+    <li><a href="11-market-pricing-investors.md">11-market-pricing-investors.md</a><span class="app-desc">TAM/SOM/SAM, full funding table, pricing benchmarks, the a16z/Accel investor thesis.</span></li>
+    <li><a href="12-synthesis.md">12-synthesis.md</a><span class="app-desc">The decisive synthesis: verdict, gap map, competitive threat assessment, three questions, failure mode, signals, pitch.</span></li>
+  </ul>
+</div>
+
+</main>
+</div>
+
+<script>
+const links = document.querySelectorAll('.nav-link[href^="#"]');
+const ids = [...links].map(l => l.getAttribute('href').slice(1));
+const els = ids.map(id => document.getElementById(id)).filter(Boolean);
+
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      links.forEach(l => l.classList.remove('active'));
+      const a = [...links].find(l => l.getAttribute('href') === '#' + e.target.id);
+      if (a) a.classList.add('active');
+    }
+  });
+}, { rootMargin: '-5% 0px -85% 0px' });
+
+els.forEach(el => io.observe(el));
+</script>
+</body>
+</html>
