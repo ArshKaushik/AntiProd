@@ -14,30 +14,150 @@
       "norm_label": "readme.md"
     },
     {
-      "label": "AntiProd \u2014 `latest-test` branch",
+      "label": "AntiProd",
       "file_type": "document",
       "source_file": "README.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "readme_antiprod_latest_test_branch",
+      "id": "readme_antiprod",
       "community": 8,
-      "norm_label": "antiprod \u2014 `latest-test` branch"
+      "norm_label": "antiprod"
     },
     {
-      "label": "What's been built",
+      "label": "The problem",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L7",
+      "source_location": "L9",
       "_origin": "ast",
-      "id": "readme_what_s_been_built",
+      "id": "readme_the_problem",
       "community": 8,
-      "norm_label": "what's been built"
+      "norm_label": "the problem"
+    },
+    {
+      "label": "What AntiProd does",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "readme_what_antiprod_does",
+      "community": 20,
+      "norm_label": "what antiprod does"
+    },
+    {
+      "label": "Holds the design memory of a product",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L19",
+      "_origin": "ast",
+      "id": "readme_holds_the_design_memory_of_a_product",
+      "community": 20,
+      "norm_label": "holds the design memory of a product"
+    },
+    {
+      "label": "Turns branches into feature cards",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L30",
+      "_origin": "ast",
+      "id": "readme_turns_branches_into_feature_cards",
+      "community": 20,
+      "norm_label": "turns branches into feature cards"
+    },
+    {
+      "label": "Ships production-ready work",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L39",
+      "_origin": "ast",
+      "id": "readme_ships_production_ready_work",
+      "community": 20,
+      "norm_label": "ships production-ready work"
+    },
+    {
+      "label": "Closes the loop with AI",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L43",
+      "_origin": "ast",
+      "id": "readme_closes_the_loop_with_ai",
+      "community": 20,
+      "norm_label": "closes the loop with ai"
+    },
+    {
+      "label": "Three layers",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L49",
+      "_origin": "ast",
+      "id": "readme_three_layers",
+      "community": 8,
+      "norm_label": "three layers"
+    },
+    {
+      "label": "Knowledge layer",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L51",
+      "_origin": "ast",
+      "id": "readme_knowledge_layer",
+      "community": 8,
+      "norm_label": "knowledge layer"
+    },
+    {
+      "label": "Production layer",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L54",
+      "_origin": "ast",
+      "id": "readme_production_layer",
+      "community": 8,
+      "norm_label": "production layer"
+    },
+    {
+      "label": "Autonomous layer",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L57",
+      "_origin": "ast",
+      "id": "readme_autonomous_layer",
+      "community": 8,
+      "norm_label": "autonomous layer"
+    },
+    {
+      "label": "Design philosophy",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L62",
+      "_origin": "ast",
+      "id": "readme_design_philosophy",
+      "community": 8,
+      "norm_label": "design philosophy"
+    },
+    {
+      "label": "The right analogy",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L70",
+      "_origin": "ast",
+      "id": "readme_the_right_analogy",
+      "community": 8,
+      "norm_label": "the right analogy"
+    },
+    {
+      "label": "What's been built (`latest-test` branch)",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L78",
+      "_origin": "ast",
+      "id": "readme_what_s_been_built_latest_test_branch",
+      "community": 8,
+      "norm_label": "what's been built (`latest-test` branch)"
     },
     {
       "label": "Repo canvas (`/`)",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L9",
+      "source_location": "L80",
       "_origin": "ast",
       "id": "readme_repo_canvas",
       "community": 8,
@@ -47,7 +167,7 @@
       "label": "Branch build screen (`/branch/[...name]`)",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L24",
+      "source_location": "L89",
       "_origin": "ast",
       "id": "readme_branch_build_screen_branch_name",
       "community": 8,
@@ -57,7 +177,7 @@
       "label": "Scale DS \u2014 design system (`src/design-system/`)",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L36",
+      "source_location": "L97",
       "_origin": "ast",
       "id": "readme_scale_ds_design_system_src_design_system",
       "community": 8,
@@ -67,7 +187,7 @@
       "label": "Tech stack",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L48",
+      "source_location": "L109",
       "_origin": "ast",
       "id": "readme_tech_stack",
       "community": 8,
@@ -77,7 +197,7 @@
       "label": "Running locally",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L59",
+      "source_location": "L120",
       "_origin": "ast",
       "id": "readme_running_locally",
       "community": 8,
@@ -87,11 +207,21 @@
       "label": "Key files",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L68",
+      "source_location": "L131",
       "_origin": "ast",
       "id": "readme_key_files",
       "community": 8,
       "norm_label": "key files"
+    },
+    {
+      "label": "Developer tooling & skills",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L142",
+      "_origin": "ast",
+      "id": "readme_developer_tooling_skills",
+      "community": 8,
+      "norm_label": "developer tooling & skills"
     },
     {
       "label": "package.json",
@@ -99,9 +229,9 @@
       "source_file": "package.json",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "package",
       "community": 3,
-      "norm_label": "package.json"
+      "norm_label": "package.json",
+      "id": "package"
     },
     {
       "label": "name",
@@ -109,9 +239,9 @@
       "source_file": "package.json",
       "source_location": "L2",
       "_origin": "ast",
-      "id": "package_name",
       "community": 3,
-      "norm_label": "name"
+      "norm_label": "name",
+      "id": "package_name"
     },
     {
       "label": "version",
@@ -119,9 +249,9 @@
       "source_file": "package.json",
       "source_location": "L3",
       "_origin": "ast",
-      "id": "package_version",
       "community": 3,
-      "norm_label": "version"
+      "norm_label": "version",
+      "id": "package_version"
     },
     {
       "label": "private",
@@ -129,9 +259,9 @@
       "source_file": "package.json",
       "source_location": "L4",
       "_origin": "ast",
-      "id": "package_private",
       "community": 3,
-      "norm_label": "private"
+      "norm_label": "private",
+      "id": "package_private"
     },
     {
       "label": "scripts",
@@ -139,9 +269,9 @@
       "source_file": "package.json",
       "source_location": "L5",
       "_origin": "ast",
-      "id": "package_scripts",
       "community": 3,
-      "norm_label": "scripts"
+      "norm_label": "scripts",
+      "id": "package_scripts"
     },
     {
       "label": "dev",
@@ -149,9 +279,9 @@
       "source_file": "package.json",
       "source_location": "L6",
       "_origin": "ast",
-      "id": "package_scripts_dev",
       "community": 3,
-      "norm_label": "dev"
+      "norm_label": "dev",
+      "id": "package_scripts_dev"
     },
     {
       "label": "build",
@@ -159,9 +289,9 @@
       "source_file": "package.json",
       "source_location": "L7",
       "_origin": "ast",
-      "id": "package_scripts_build",
       "community": 3,
-      "norm_label": "build"
+      "norm_label": "build",
+      "id": "package_scripts_build"
     },
     {
       "label": "start",
@@ -169,9 +299,9 @@
       "source_file": "package.json",
       "source_location": "L8",
       "_origin": "ast",
-      "id": "package_scripts_start",
       "community": 3,
-      "norm_label": "start"
+      "norm_label": "start",
+      "id": "package_scripts_start"
     },
     {
       "label": "lint",
@@ -179,9 +309,9 @@
       "source_file": "package.json",
       "source_location": "L9",
       "_origin": "ast",
-      "id": "package_scripts_lint",
       "community": 3,
-      "norm_label": "lint"
+      "norm_label": "lint",
+      "id": "package_scripts_lint"
     },
     {
       "label": "dependencies",
@@ -189,9 +319,9 @@
       "source_file": "package.json",
       "source_location": "L11",
       "_origin": "ast",
-      "id": "package_dependencies",
       "community": 3,
-      "norm_label": "dependencies"
+      "norm_label": "dependencies",
+      "id": "package_dependencies"
     },
     {
       "label": "agentation",
@@ -199,9 +329,9 @@
       "source_file": "package.json",
       "source_location": "L12",
       "_origin": "ast",
-      "id": "package_dependencies_agentation",
       "community": 3,
-      "norm_label": "agentation"
+      "norm_label": "agentation",
+      "id": "package_dependencies_agentation"
     },
     {
       "label": "next",
@@ -209,9 +339,9 @@
       "source_file": "package.json",
       "source_location": "L13",
       "_origin": "ast",
-      "id": "package_dependencies_next",
       "community": 3,
-      "norm_label": "next"
+      "norm_label": "next",
+      "id": "package_dependencies_next"
     },
     {
       "label": "react",
@@ -219,9 +349,9 @@
       "source_file": "package.json",
       "source_location": "L14",
       "_origin": "ast",
-      "id": "package_dependencies_react",
       "community": 3,
-      "norm_label": "react"
+      "norm_label": "react",
+      "id": "package_dependencies_react"
     },
     {
       "label": "react-dom",
@@ -229,9 +359,9 @@
       "source_file": "package.json",
       "source_location": "L15",
       "_origin": "ast",
-      "id": "package_dependencies_react_dom",
       "community": 3,
-      "norm_label": "react-dom"
+      "norm_label": "react-dom",
+      "id": "package_dependencies_react_dom"
     },
     {
       "label": "devDependencies",
@@ -239,9 +369,9 @@
       "source_file": "package.json",
       "source_location": "L17",
       "_origin": "ast",
-      "id": "package_devdependencies",
       "community": 1,
-      "norm_label": "devdependencies"
+      "norm_label": "devdependencies",
+      "id": "package_devdependencies"
     },
     {
       "label": "@tailwindcss/postcss",
@@ -249,9 +379,9 @@
       "source_file": "package.json",
       "source_location": "L18",
       "_origin": "ast",
-      "id": "package_devdependencies_tailwindcss_postcss",
       "community": 1,
-      "norm_label": "@tailwindcss/postcss"
+      "norm_label": "@tailwindcss/postcss",
+      "id": "package_devdependencies_tailwindcss_postcss"
     },
     {
       "label": "@types/node",
@@ -259,9 +389,9 @@
       "source_file": "package.json",
       "source_location": "L19",
       "_origin": "ast",
-      "id": "package_devdependencies_types_node",
       "community": 1,
-      "norm_label": "@types/node"
+      "norm_label": "@types/node",
+      "id": "package_devdependencies_types_node"
     },
     {
       "label": "@types/react",
@@ -269,9 +399,9 @@
       "source_file": "package.json",
       "source_location": "L20",
       "_origin": "ast",
-      "id": "package_devdependencies_types_react",
       "community": 1,
-      "norm_label": "@types/react"
+      "norm_label": "@types/react",
+      "id": "package_devdependencies_types_react"
     },
     {
       "label": "@types/react-dom",
@@ -279,9 +409,9 @@
       "source_file": "package.json",
       "source_location": "L21",
       "_origin": "ast",
-      "id": "package_devdependencies_types_react_dom",
       "community": 1,
-      "norm_label": "@types/react-dom"
+      "norm_label": "@types/react-dom",
+      "id": "package_devdependencies_types_react_dom"
     },
     {
       "label": "eslint",
@@ -289,9 +419,9 @@
       "source_file": "package.json",
       "source_location": "L22",
       "_origin": "ast",
-      "id": "package_devdependencies_eslint",
       "community": 1,
-      "norm_label": "eslint"
+      "norm_label": "eslint",
+      "id": "package_devdependencies_eslint"
     },
     {
       "label": "eslint-config-next",
@@ -299,9 +429,9 @@
       "source_file": "package.json",
       "source_location": "L23",
       "_origin": "ast",
-      "id": "package_devdependencies_eslint_config_next",
       "community": 1,
-      "norm_label": "eslint-config-next"
+      "norm_label": "eslint-config-next",
+      "id": "package_devdependencies_eslint_config_next"
     },
     {
       "label": "tailwindcss",
@@ -309,9 +439,9 @@
       "source_file": "package.json",
       "source_location": "L24",
       "_origin": "ast",
-      "id": "package_devdependencies_tailwindcss",
       "community": 1,
-      "norm_label": "tailwindcss"
+      "norm_label": "tailwindcss",
+      "id": "package_devdependencies_tailwindcss"
     },
     {
       "label": "typescript",
@@ -319,9 +449,9 @@
       "source_file": "package.json",
       "source_location": "L25",
       "_origin": "ast",
-      "id": "package_devdependencies_typescript",
       "community": 1,
-      "norm_label": "typescript"
+      "norm_label": "typescript",
+      "id": "package_devdependencies_typescript"
     },
     {
       "label": "page.tsx",
@@ -329,9 +459,9 @@
       "source_file": "src/app/branch/[...name]/page.tsx",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "name_page",
       "community": 18,
-      "norm_label": "page.tsx"
+      "norm_label": "page.tsx",
+      "id": "name_page"
     },
     {
       "label": "BranchPage()",
@@ -339,9 +469,9 @@
       "source_file": "src/app/branch/[...name]/page.tsx",
       "source_location": "L7",
       "_origin": "ast",
-      "id": "name_page_branchpage",
       "community": 18,
-      "norm_label": "branchpage()"
+      "norm_label": "branchpage()",
+      "id": "name_page_branchpage"
     },
     {
       "label": "BranchCanvas.tsx",
@@ -349,9 +479,9 @@
       "source_file": "src/app/components/BranchCanvas.tsx",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "components_branchcanvas",
       "community": 18,
-      "norm_label": "branchcanvas.tsx"
+      "norm_label": "branchcanvas.tsx",
+      "id": "components_branchcanvas"
     },
     {
       "label": "Vec",
@@ -359,9 +489,9 @@
       "source_file": "src/app/components/BranchCanvas.tsx",
       "source_location": "L13",
       "_origin": "ast",
-      "id": "components_branchcanvas_vec",
       "community": 18,
-      "norm_label": "vec"
+      "norm_label": "vec",
+      "id": "components_branchcanvas_vec"
     },
     {
       "label": "Node",
@@ -369,9 +499,9 @@
       "source_file": "src/app/components/BranchCanvas.tsx",
       "source_location": "L14",
       "_origin": "ast",
-      "id": "components_branchcanvas_node",
       "community": 18,
-      "norm_label": "node"
+      "norm_label": "node",
+      "id": "components_branchcanvas_node"
     },
     {
       "label": "clamp()",
@@ -379,9 +509,9 @@
       "source_file": "src/app/components/BranchCanvas.tsx",
       "source_location": "L16",
       "_origin": "ast",
-      "id": "components_branchcanvas_clamp",
       "community": 18,
-      "norm_label": "clamp()"
+      "norm_label": "clamp()",
+      "id": "components_branchcanvas_clamp"
     },
     {
       "label": "Drag",
@@ -389,9 +519,9 @@
       "source_file": "src/app/components/BranchCanvas.tsx",
       "source_location": "L26",
       "_origin": "ast",
-      "id": "components_branchcanvas_drag",
       "community": 18,
-      "norm_label": "drag"
+      "norm_label": "drag",
+      "id": "components_branchcanvas_drag"
     },
     {
       "label": "BranchCanvas()",
@@ -399,9 +529,9 @@
       "source_file": "src/app/components/BranchCanvas.tsx",
       "source_location": "L35",
       "_origin": "ast",
-      "id": "components_branchcanvas_branchcanvas",
       "community": 18,
-      "norm_label": "branchcanvas()"
+      "norm_label": "branchcanvas()",
+      "id": "components_branchcanvas_branchcanvas"
     },
     {
       "label": "RepoCanvas.tsx",
@@ -409,9 +539,9 @@
       "source_file": "src/app/components/RepoCanvas.tsx",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "components_repocanvas",
       "community": 2,
-      "norm_label": "repocanvas.tsx"
+      "norm_label": "repocanvas.tsx",
+      "id": "components_repocanvas"
     },
     {
       "label": "Branch",
@@ -419,9 +549,9 @@
       "source_file": "src/app/components/RepoCanvas.tsx",
       "source_location": "L6",
       "_origin": "ast",
-      "id": "components_repocanvas_branch",
       "community": 2,
-      "norm_label": "branch"
+      "norm_label": "branch",
+      "id": "components_repocanvas_branch"
     },
     {
       "label": "ADJECTIVES",
@@ -429,9 +559,9 @@
       "source_file": "src/app/components/RepoCanvas.tsx",
       "source_location": "L30",
       "_origin": "ast",
-      "id": "components_repocanvas_adjectives",
       "community": 2,
-      "norm_label": "adjectives"
+      "norm_label": "adjectives",
+      "id": "components_repocanvas_adjectives"
     },
     {
       "label": "NOUNS",
@@ -439,9 +569,9 @@
       "source_file": "src/app/components/RepoCanvas.tsx",
       "source_location": "L35",
       "_origin": "ast",
-      "id": "components_repocanvas_nouns",
       "community": 2,
-      "norm_label": "nouns"
+      "norm_label": "nouns",
+      "id": "components_repocanvas_nouns"
     },
     {
       "label": "randomBranchName()",
@@ -449,9 +579,9 @@
       "source_file": "src/app/components/RepoCanvas.tsx",
       "source_location": "L41",
       "_origin": "ast",
-      "id": "components_repocanvas_randombranchname",
       "community": 2,
-      "norm_label": "randombranchname()"
+      "norm_label": "randombranchname()",
+      "id": "components_repocanvas_randombranchname"
     },
     {
       "label": "computeBarWidth()",
@@ -459,9 +589,9 @@
       "source_file": "src/app/components/RepoCanvas.tsx",
       "source_location": "L47",
       "_origin": "ast",
-      "id": "components_repocanvas_computebarwidth",
       "community": 2,
-      "norm_label": "computebarwidth()"
+      "norm_label": "computebarwidth()",
+      "id": "components_repocanvas_computebarwidth"
     },
     {
       "label": "computeLayout()",
@@ -469,9 +599,9 @@
       "source_file": "src/app/components/RepoCanvas.tsx",
       "source_location": "L59",
       "_origin": "ast",
-      "id": "components_repocanvas_computelayout",
       "community": 2,
-      "norm_label": "computelayout()"
+      "norm_label": "computelayout()",
+      "id": "components_repocanvas_computelayout"
     },
     {
       "label": "defaultPillPos()",
@@ -479,9 +609,9 @@
       "source_file": "src/app/components/RepoCanvas.tsx",
       "source_location": "L85",
       "_origin": "ast",
-      "id": "components_repocanvas_defaultpillpos",
       "community": 2,
-      "norm_label": "defaultpillpos()"
+      "norm_label": "defaultpillpos()",
+      "id": "components_repocanvas_defaultpillpos"
     },
     {
       "label": "anchorRelPos()",
@@ -489,9 +619,9 @@
       "source_file": "src/app/components/RepoCanvas.tsx",
       "source_location": "L97",
       "_origin": "ast",
-      "id": "components_repocanvas_anchorrelpos",
       "community": 2,
-      "norm_label": "anchorrelpos()"
+      "norm_label": "anchorrelpos()",
+      "id": "components_repocanvas_anchorrelpos"
     },
     {
       "label": "buildPath()",
@@ -499,9 +629,9 @@
       "source_file": "src/app/components/RepoCanvas.tsx",
       "source_location": "L107",
       "_origin": "ast",
-      "id": "components_repocanvas_buildpath",
       "community": 2,
-      "norm_label": "buildpath()"
+      "norm_label": "buildpath()",
+      "id": "components_repocanvas_buildpath"
     },
     {
       "label": "RepoCanvas()",
@@ -509,9 +639,9 @@
       "source_file": "src/app/components/RepoCanvas.tsx",
       "source_location": "L112",
       "_origin": "ast",
-      "id": "components_repocanvas_repocanvas",
       "community": 2,
-      "norm_label": "repocanvas()"
+      "norm_label": "repocanvas()",
+      "id": "components_repocanvas_repocanvas"
     },
     {
       "label": "layout.tsx",
@@ -519,9 +649,9 @@
       "source_file": "src/app/layout.tsx",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "app_layout",
       "community": 6,
-      "norm_label": "layout.tsx"
+      "norm_label": "layout.tsx",
+      "id": "app_layout"
     },
     {
       "label": "inter",
@@ -529,9 +659,9 @@
       "source_file": "src/app/layout.tsx",
       "source_location": "L6",
       "_origin": "ast",
-      "id": "app_layout_inter",
       "community": 6,
-      "norm_label": "inter"
+      "norm_label": "inter",
+      "id": "app_layout_inter"
     },
     {
       "label": "metadata",
@@ -539,9 +669,9 @@
       "source_file": "src/app/layout.tsx",
       "source_location": "L11",
       "_origin": "ast",
-      "id": "app_layout_metadata",
       "community": 6,
-      "norm_label": "metadata"
+      "norm_label": "metadata",
+      "id": "app_layout_metadata"
     },
     {
       "label": "RootLayout()",
@@ -549,9 +679,9 @@
       "source_file": "src/app/layout.tsx",
       "source_location": "L16",
       "_origin": "ast",
-      "id": "app_layout_rootlayout",
       "community": 6,
-      "norm_label": "rootlayout()"
+      "norm_label": "rootlayout()",
+      "id": "app_layout_rootlayout"
     },
     {
       "label": "README.md",
@@ -559,9 +689,9 @@
       "source_file": "src/design-system/README.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "design_system_readme",
       "community": 16,
-      "norm_label": "readme.md"
+      "norm_label": "readme.md",
+      "id": "design_system_readme"
     },
     {
       "label": "Scale DS",
@@ -569,9 +699,9 @@
       "source_file": "src/design-system/README.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "design_system_readme_scale_ds",
       "community": 16,
-      "norm_label": "scale ds"
+      "norm_label": "scale ds",
+      "id": "design_system_readme_scale_ds"
     },
     {
       "label": "Structure",
@@ -579,9 +709,9 @@
       "source_file": "src/design-system/README.md",
       "source_location": "L6",
       "_origin": "ast",
-      "id": "design_system_readme_structure",
       "community": 16,
-      "norm_label": "structure"
+      "norm_label": "structure",
+      "id": "design_system_readme_structure"
     },
     {
       "label": "Effects usage",
@@ -589,9 +719,9 @@
       "source_file": "src/design-system/README.md",
       "source_location": "L23",
       "_origin": "ast",
-      "id": "design_system_readme_effects_usage",
       "community": 16,
-      "norm_label": "effects usage"
+      "norm_label": "effects usage",
+      "id": "design_system_readme_effects_usage"
     },
     {
       "label": "Typography usage",
@@ -599,9 +729,9 @@
       "source_file": "src/design-system/README.md",
       "source_location": "L34",
       "_origin": "ast",
-      "id": "design_system_readme_typography_usage",
       "community": 16,
-      "norm_label": "typography usage"
+      "norm_label": "typography usage",
+      "id": "design_system_readme_typography_usage"
     },
     {
       "label": "How it's wired",
@@ -609,9 +739,9 @@
       "source_file": "src/design-system/README.md",
       "source_location": "L46",
       "_origin": "ast",
-      "id": "design_system_readme_how_it_s_wired",
       "community": 16,
-      "norm_label": "how it's wired"
+      "norm_label": "how it's wired",
+      "id": "design_system_readme_how_it_s_wired"
     },
     {
       "label": "Conventions",
@@ -619,9 +749,9 @@
       "source_file": "src/design-system/README.md",
       "source_location": "L63",
       "_origin": "ast",
-      "id": "design_system_readme_conventions",
       "community": 16,
-      "norm_label": "conventions"
+      "norm_label": "conventions",
+      "id": "design_system_readme_conventions"
     },
     {
       "label": "Adding a token layer",
@@ -629,9 +759,9 @@
       "source_file": "src/design-system/README.md",
       "source_location": "L73",
       "_origin": "ast",
-      "id": "design_system_readme_adding_a_token_layer",
       "community": 16,
-      "norm_label": "adding a token layer"
+      "norm_label": "adding a token layer",
+      "id": "design_system_readme_adding_a_token_layer"
     },
     {
       "label": "eslint.config.mjs",
@@ -1138,17 +1268,37 @@
       "source_file": "README.md",
       "source_location": "L1",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "readme",
-      "target": "readme_antiprod_latest_test_branch"
+      "target": "readme_antiprod",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "README.md",
-      "source_location": "L68",
+      "source_location": "L62",
       "weight": 1.0,
-      "source": "readme_antiprod_latest_test_branch",
+      "source": "readme_antiprod",
+      "target": "readme_design_philosophy",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L142",
+      "weight": 1.0,
+      "source": "readme_antiprod",
+      "target": "readme_developer_tooling_skills",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L131",
+      "weight": 1.0,
+      "source": "readme_antiprod",
       "target": "readme_key_files",
       "confidence_score": 1.0
     },
@@ -1156,40 +1306,20 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "README.md",
-      "source_location": "L35",
+      "source_location": "L120",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "readme_antiprod_latest_test_branch",
-      "target": "readme_running_locally"
+      "source": "readme_antiprod",
+      "target": "readme_running_locally",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "README.md",
-      "source_location": "L25",
+      "source_location": "L109",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "readme_antiprod_latest_test_branch",
-      "target": "readme_tech_stack"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "README.md",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "readme_antiprod_latest_test_branch",
-      "target": "readme_what_s_been_built"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "README.md",
-      "source_location": "L24",
-      "weight": 1.0,
-      "source": "readme_what_s_been_built",
-      "target": "readme_branch_build_screen_branch_name",
+      "source": "readme_antiprod",
+      "target": "readme_tech_stack",
       "confidence_score": 1.0
     },
     {
@@ -1198,7 +1328,137 @@
       "source_file": "README.md",
       "source_location": "L9",
       "weight": 1.0,
-      "source": "readme_what_s_been_built",
+      "source": "readme_antiprod",
+      "target": "readme_the_problem",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L70",
+      "weight": 1.0,
+      "source": "readme_antiprod",
+      "target": "readme_the_right_analogy",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L49",
+      "weight": 1.0,
+      "source": "readme_antiprod",
+      "target": "readme_three_layers",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "readme_antiprod",
+      "target": "readme_what_antiprod_does",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L78",
+      "weight": 1.0,
+      "source": "readme_antiprod",
+      "target": "readme_what_s_been_built_latest_test_branch",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L43",
+      "weight": 1.0,
+      "source": "readme_what_antiprod_does",
+      "target": "readme_closes_the_loop_with_ai",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "readme_what_antiprod_does",
+      "target": "readme_holds_the_design_memory_of_a_product",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L39",
+      "weight": 1.0,
+      "source": "readme_what_antiprod_does",
+      "target": "readme_ships_production_ready_work",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L30",
+      "weight": 1.0,
+      "source": "readme_what_antiprod_does",
+      "target": "readme_turns_branches_into_feature_cards",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L57",
+      "weight": 1.0,
+      "source": "readme_three_layers",
+      "target": "readme_autonomous_layer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L51",
+      "weight": 1.0,
+      "source": "readme_three_layers",
+      "target": "readme_knowledge_layer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L54",
+      "weight": 1.0,
+      "source": "readme_three_layers",
+      "target": "readme_production_layer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L89",
+      "weight": 1.0,
+      "source": "readme_what_s_been_built_latest_test_branch",
+      "target": "readme_branch_build_screen_branch_name",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L80",
+      "weight": 1.0,
+      "source": "readme_what_s_been_built_latest_test_branch",
       "target": "readme_repo_canvas",
       "confidence_score": 1.0
     },
@@ -1206,9 +1466,9 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "README.md",
-      "source_location": "L36",
+      "source_location": "L97",
       "weight": 1.0,
-      "source": "readme_what_s_been_built",
+      "source": "readme_what_s_been_built_latest_test_branch",
       "target": "readme_scale_ds_design_system_src_design_system",
       "confidence_score": 1.0
     },
@@ -2093,5 +2353,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "69cc7bbce66718b821565626c876c2e76115dfd7"
+  "built_at_commit": "9645369f0e3ccde839098f4385b5a83f926fd20b"
 }
